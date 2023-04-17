@@ -18,20 +18,15 @@ class ProductManager {
     }
 
     #newID(){
-        let initialID = 0;
-        this.products.map((product) => {
-            if(product.id > initialID) initialID = product.id;
-        });
-        return initialID;
+        return this.products.length + 1
     }
-
 
     getProducts (){
         return this.products;
     }
 
     getProductByID (productID){
-        const productByID = this.products.find((prod) => prod.productID === productID)
+        const productByID = this.products.find((prod) => prod.id === productID) 
         if(productByID){
             console.log(productByID)
         } else {
