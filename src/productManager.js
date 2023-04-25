@@ -75,11 +75,11 @@ class ProductManager {
             console.log ('ID not found');
           } else {
             const productUpdated = {
-                ...productsFile[idUpdate],
-                ...toBeUpdated,
                 id: idProduct,
+                ...productsList[idUpdate],
+                ...toBeUpdated,
             };
-            productsFile[idUpdate] = productUpdated;
+            productsList[idUpdate] = productUpdated;
             await fs.promises.writeFile(this.path, JSON.stringify(productsList));
             console.log(`Product ID "${idProduct}" successfully updated`);    
           }
@@ -103,19 +103,10 @@ class ProductManager {
 
 const productManager = new ProductManager();
 
-const product1 = {
-    title: 'Bombi Valkyria',
-    description: 'Bombi tiro alto',
-    price: 2000,
-    thumbnail: 'bombivalkyria.jpg',
-    code: 'bombivalkyria',
-    stock:5,
-}
-
 const test = async () => {
     const get1 = await productManager.getProducts();
     console.log('First query:', get1);
-    await productManager.addProduct(product1);
+    await productManager.addProduct('Bombi Valkyria','Bombi tiro alto', 2000,'bombivalkyria.jpg','bombivalkyria',5);
     const get2 =  await productManager.getProducts();
     console.log('Second query:', get2)
     const get3 = await productManager.getProductByID(1);
@@ -124,3 +115,5 @@ const test = async () => {
 }
 
 test();
+
+export default ProductManager;
