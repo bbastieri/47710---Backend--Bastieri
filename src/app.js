@@ -16,28 +16,39 @@ test ()
 
 app.get('/', async (req,res)=>{
     res.send ('HOME')
-})
+}) 
 
 app.get('/products', async (req,res)=>{
-    let limit = req.query.limit;
-    const products = await productManager.getProducts();
-    if(!limit){
-        return res.json({products})
+    try {
+        const productsFile = await productManager.getProducts();
+        const limit = req.query.limit ? parseInt(req.query.limit) : 0;
+        if (limit>0){
+            const selectedProducts = productsFile.slice(0, limit);
+            const remainingProducts = productsFile.slice(limit);
+            res.status(200).json({selectedProducts, remainingProducts})
+        } else {
+            res.status(200).json(productsFile)
+        }
+    } catch (error) {   
+        res.status(404).json({error})
     }
-    limit = limit < products.length ? limit : products.length;
-    const array = [];
-    for(let i=0; i<limit; i++){
-        array.push(products[i]);
-    }
-    return res.json({array});    
-})
+});
 
-app.get('.products/:pid', async (req, res)=>{
-    const prodID = parseInt(req.params.pid);
-    const product = await productManager.getProductByID(prodID);
-    if(product == -1) return res.status(404).send(`Product not found`);
-    return res.json({product});
+app.get('/products/:pid', async (req, res) =>{
+    try{
+        const productID = parseInt(req.params.pid);
+        const productByID = await productManager.getProductByID(productID);
+        if(productByID){
+            res.status(200).json({message:`Product ID ${pid}:`, productByID})
+        } else {
+            res.status(400).send({message:`Product ID ${pid} not found`})
+        }
+
+    } catch (error) {
+        res.status(400).json({error})
+    }
 })
+   
 
 app.listen(8080, ()=>{
     console.log('Server is running...')
