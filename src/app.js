@@ -20,7 +20,7 @@ app.get('/', async (req,res)=>{
 
 app.get('/products', async (req,res)=>{
     let limit = req.query.limit;
-    const products = await productManager.get()
+    const products = await productManager.getProducts();
     if(!limit){
         return res.json({products})
     }
@@ -34,11 +34,10 @@ app.get('/products', async (req,res)=>{
 
 app.get('.products/:pid', async (req, res)=>{
     const prodID = parseInt(req.params.pid);
-    const product = await productManager.getById(prodID);
+    const product = await productManager.getProductByID(prodID);
     if(product == -1) return res.status(404).send(`Product not found`);
     return res.json({product});
 })
-
 
 app.listen(8080, ()=>{
     console.log('Server is running...')
