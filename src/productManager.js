@@ -1,9 +1,9 @@
-const fs = require ('fs');
+import fs from 'fs';
 
 class ProductManager {
 
-    constructor () {
-        this.path = './products.json'
+    constructor (path) {
+        this.path = path
     }
 
     async getProducts (){
@@ -100,20 +100,5 @@ class ProductManager {
     }
 
 }
-
-const productManager = new ProductManager();
-
-const test = async () => {
-    const get1 = await productManager.getProducts();
-    console.log('First query:', get1);
-    await productManager.addProduct('Bombi Valkyria','Bombi tiro alto', 2000,'bombivalkyria.jpg','bombivalkyria',5);
-    const get2 =  await productManager.getProducts();
-    console.log('Second query:', get2)
-    const get3 = await productManager.getProductByID(1);
-    console.log ('Product:', get3);
-    await productManager.deleteProduct(2);
-}
-
-test();
 
 export default ProductManager;
