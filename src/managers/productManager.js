@@ -21,6 +21,16 @@ class ProductManager {
         }
     }
 
+    async getProductByID (pid){
+        try {
+          const productsList = await this.getProducts();
+          const productByID = productsList.find(product => product.pid === pid);
+          return productByID;   
+        } catch (error){
+            console.log(error);
+        }
+    }
+
     async addProduct (title, description, price, thumbnail, code, stock) {
         try {
             const productsList = await this.getProducts();
@@ -31,7 +41,7 @@ class ProductManager {
                 const lastProd = productsList[productsList.length - 1];
                 const newID = productCode ? lastProd.id +1 : 1;
                 const product = {
-                    id : newID,
+                    pid : newID,
                     title,
                     description,
                     price,
@@ -44,14 +54,14 @@ class ProductManager {
             }
 
         } catch (error){
-        console.log(error);
+            console.log(error);
         } 
     }
 
-    async deleteProduct(idProduct) {
+    async deleteProduct(pid) {
         try {
           const productsList = await this.getProducts();
-          const idDelete = productsList.findIndex((product) => product.id === idProduct);
+          const idDelete = productsList.findIndex((product) => product.pid === pid);
         
           if(idDelete < 0){
             console.log ('ID not found');
@@ -59,46 +69,34 @@ class ProductManager {
             const index = productsList.indexOf(idDelete)
             productsFile.splice(index, 1);
             await fs.promises.writeFile(this.path, JSON.stringify(productsList));
-            console.log(`Deleted product: ID "${idProduct}"`);
+            console.log(`Deleted product: ID "${pid}"`);
           } 
         } catch (error){
             console.log(error)
         }  
     }
 
-    async updateProduct (idProduct, toBeUpdated) {
+    async updateProduct (pid, obj) {
         try{
           const productsList = await this.getProducts();
-          const idUpdate = productsList.findIndex ((product) => product.id === idProduct);
+          const idUpdate = productsList.findIndex ((product) => product.id === pid);
           
           if (idUpdate < 0){
-            console.log ('ID not found');
+            console.log (`ID ${pid} not found`);
           } else {
             const productUpdated = {
-                id: idProduct,
+                id: pid,
                 ...productsList[idUpdate],
-                ...toBeUpdated,
+                ...obj,
             };
             productsList[idUpdate] = productUpdated;
             await fs.promises.writeFile(this.path, JSON.stringify(productsList));
-            console.log(`Product ID "${idProduct}" successfully updated`);    
+            console.log(`Product ID "${pid}" successfully updated`);    
           }
         } catch (error){
             console.log(error);
         }
     }
-
-    async getProductByID (idProduct){
-        try {
-          const productsList = await this.getProducts();
-          const productByID = productsList.find(product => product.id === idProduct);
-          return productByID;   
-
-        } catch (error){
-            console.log(error);
-        }
-    }
-
 }
 
 export default ProductManager;

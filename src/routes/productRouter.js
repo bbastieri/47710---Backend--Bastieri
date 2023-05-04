@@ -5,34 +5,70 @@ const router = Router();
 const productManager = new ProductManager('./products.json');
 
 
-router.get('/products', async (req,res)=>{
+router.get('/', async (req,res)=>{
+    const {limit} = req.query;
     try {
-        const productsFile = await productManager.getProducts();
-        const limit = req.query.limit ? parseInt(req.query.limit) : 0;
-        if (limit>0){
-            const selectedProducts = productsFile.slice(0, limit);
-            const remainingProducts = productsFile.slice(limit);
-            res.status(200).json({selectedProducts, remainingProducts})
-        } else {
-            res.status(200).json(productsFile)
-        }
+        const productsList = await productManager.getProducts(limit);
+        res.status(200).json(productsList)
     } catch (error) {   
-        res.status(404).json({error})
+        res.status(404).json({message: error.message})
     }
 });
 
-router.get('/products/:pid', async (req, res) =>{
+router.get('/:pid', async (req, res) =>{
     try{
-        const productID = parseInt(req.params.pid);
-        const productByID = await productManager.getProductByID(productID);
+        const { pid } = req.params;
+        const productByID = await productManager.getProductByID(pid);
         if(productByID){
             res.status(200).json({message:`Product ID ${pid}:`, productByID})
         } else {
             res.status(400).send({message:`Product ID ${pid} not found`})
         }
-
     } catch (error) {
-        res.status(400).json({error})
+        res.status(400).json({message:error.message})
+    }
+});
+
+router.post('/', async (req, res)=>{
+    try{
+        console.log(req.body);
+        const product = req.body;
+        const newProduct = await productManager.addProduct(product);
+        res.json(newProduct)
+    } catch (error) {
+        res.status(400).json({message:error.message})
+    }
+})
+
+router.put('/:pid', async (req, res)=>{
+    try{
+        const product = req.body;
+        const { pid } = req.params;
+        const productByID = await productManager.getProductByID(Number(pid));
+        if (productByID){
+            await productManager.updateProduct(product, Number(pid));
+            res.send(200).json({message:`Product ID ${pid} updated successfully`})
+        } else {
+            res.status(400).json({message:'Product not found!'})
+        }
+    } catch (error) {
+        res.status(400).json({message:error.message})
+    }
+})
+
+router.delete('/:pid', async (req, res)=>{
+    try{
+        const { pid } = req.params;
+        const productsList = await productManager.getProducts();
+        const toBeDeleted = productsList.find(prod => prod.pid === (Number(pid)));
+        if (toBeDeleted) {
+            await productManager.deleteProduct(Number(pid));
+            res.send(200).json({message:`Product ID ${pid} deleted successfully`})
+        } else {    
+            res.status(400).json({message:'Product not found!'})
+        }
+    } catch (error) {
+        res.status(400).json({message: error.message})
     }
 })
 
