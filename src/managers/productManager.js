@@ -6,14 +6,27 @@ class ProductManager {
         this.path = path
     }
 
-    async getProducts (){
+    async #getNewID(){
+        let starterID = 0;
+        const productsList = await this.getProducts();
+        productsList.map((product)=>{
+            if (product.pid > starterID) starterID = product.pid;
+        });
+        return starterID;    
+    }
+
+    async getProducts (limit){
         try {
             if (fs.existsSync(this.path)){
                 const products = await fs.promises.readFile(this.path, 'utf8');
                 const productsJS = JSON.parse(products);
-                return productsJS;
-            } else{
-                return [];
+                if (limit) {
+                    return productsJS.slice(0, limit)
+                } else {
+                    return productsJS;
+                }
+            } else {
+                return []
             }
 
         } catch (error){
@@ -31,28 +44,16 @@ class ProductManager {
         }
     }
 
-    async addProduct (title, description, price, thumbnail, code, stock) {
+    async addProduct (obj) {
         try {
+            const product = {
+                pid : await this.#getNewID() + 1,
+                ...obj
+            };
             const productsList = await this.getProducts();
-            const productCode = productsList.find((product) => product.code === code);
-            if (productCode) {
-                console.log ('This product already exists.')
-            } else{
-                const lastProd = productsList[productsList.length - 1];
-                const newID = productCode ? lastProd.id +1 : 1;
-                const product = {
-                    pid : newID,
-                    title,
-                    description,
-                    price,
-                    thumbnail,
-                    code,
-                    stock,
-            }
             productsList.push(product);
-            await fs.promises.writeFile(this.path, JSON.stringify(productsList));
-            }
-
+            await fs.promises.writeFile(this.path, JSON.stringify(productsList))        
+            return product
         } catch (error){
             console.log(error);
         } 
@@ -80,7 +81,6 @@ class ProductManager {
         try{
           const productsList = await this.getProducts();
           const idUpdate = productsList.findIndex ((product) => product.id === pid);
-          
           if (idUpdate < 0){
             console.log (`ID ${pid} not found`);
           } else {
