@@ -2,7 +2,7 @@ import { Router } from "express";
 import ProductManager from "../managers/productManager.js";
 
 const router = Router();
-const productManager = new ProductManager('./products.json');
+const productManager = new ProductManager(__dirname + './products.json');
 
 
 router.get('/', async (req,res)=>{
@@ -46,8 +46,8 @@ router.put('/:pid', async (req, res)=>{
         const { pid } = req.params;
         const productByID = await productManager.getProductByID(Number(pid));
         if (productByID){
-            await productManager.updateProduct(product, Number(pid));
-            res.send(200).json({message:`Product ID ${pid} updated successfully`})
+            await productManager.updateProduct(Number(pid), product);
+            res.status(200).json({message:`Product ID ${pid} updated successfully`})
         } else {
             res.status(400).json({message:'Product not found!'})
         }
