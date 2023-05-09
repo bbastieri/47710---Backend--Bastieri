@@ -2,7 +2,7 @@
   "name": "47710---backend---bastieri",
   "version": "1.0.0",
   "description": "",
-  "main": "./src/app.js",
+  "main": "index.js",
   "type": "module",
   "scripts": {
     "start": "nodemon src/app.js"
