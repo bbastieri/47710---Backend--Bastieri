@@ -1,5 +1,5 @@
 import express from 'express';
-import { __dirname } from './utils/path.js';
+import { __dirname } from './path.js';
 import handlebars from 'express-handlebars';
 import productRouter from './routes/productRouter.js';
 import cartRouter from './routes/cartRouter.js';
