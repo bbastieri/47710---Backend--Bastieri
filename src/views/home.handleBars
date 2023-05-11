@@ -1,21 +1,17 @@
 <div>
-<h2>Productos</h2>
-    <table>
-
-    </table>
-</div>
-
-
-{{#if users.length}}
-    {{#each users}}
+<h2>Products</h2>
+{{#if products.length}}
+    {{#each products}}
+    <br>
     <ul>
-        <li>{{name}}</li>
-        <li>{{lastname}}</li>
-        <li>{{age}}</li>
-        <li>{{mail}}</li>
-        <li>{{phone}}</li>
+        <li>{{this.name}}</li>
+        <li>{{this.description}}</li>
+        <li>{{this.code}}</li>
+        <li>{{this.price}}</li>
     </ul>
     {{/each}}
 {{else}}
-    <p>No tenemos usuarios</p>
+    <p>No products available</p>
 {{/if}}
+</div>
+

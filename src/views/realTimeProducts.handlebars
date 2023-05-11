@@ -1,5 +1,28 @@
-<h2>First view from Handlebars
-</h2>
+<form id="form">
+    <label>Product:</label><input type="text" name="name" id="name">
+    <label>Description:</label><input type="text" name="description" id="description">
+    <label>Code:</label><input type="text" name="code" id="code">
+    <label>Price:</label><input type="text" name="price" id="price">
+    <input type="submit" value="SEND">
+</form>
+
+<div>
+<h2>Added products:</h2>
+{{#if users.length}}
+    {{#each users}}
+    <br>
+    <ul>
+        <li>{{this.id}}</li>
+        <li>{{this.name}}</li>
+        <li>{{this.description}}</li>
+        <li>{{this.code}}</li>
+        <li>{{this.price}}</li>
+    </ul>
+    {{/each}}
+{{else}}
+    <p>No products available</p>
+{{/if}}
+</div>
 
 <script src="socket.io/socket.io.js"></script>
 <script src="js/index.js"></script>
