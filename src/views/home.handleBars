@@ -1,0 +1,21 @@
+<div>
+<h2>Productos</h2>
+    <table>
+
+    </table>
+</div>
+
+
+{{#if users.length}}
+    {{#each users}}
+    <ul>
+        <li>{{name}}</li>
+        <li>{{lastname}}</li>
+        <li>{{age}}</li>
+        <li>{{mail}}</li>
+        <li>{{phone}}</li>
+    </ul>
+    {{/each}}
+{{else}}
+    <p>No tenemos usuarios</p>
+{{/if}}
