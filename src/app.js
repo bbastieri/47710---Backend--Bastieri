@@ -30,6 +30,7 @@ const socketServer = new Server(httpServer);
 
 socketServer.on('connection', (socket) =>{
     console.log(`Client connected: ${socket.id}`)
+
     socket.on('newProduct', async(product) =>{
         await productManager.addProduct(product)
         socketServer.emit('arrayProducts', await productManager.getProducts())
