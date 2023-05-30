@@ -47,13 +47,4 @@ export default class ProductManagerMongoDB {
         }
     };
 
-    async deleteProducts () {
-        try{
-            const response = await ProductsModel.deleteMany({});
-            return response;
-        }catch (error) {
-            console.log(error)
-        }
-    };
-
 }
