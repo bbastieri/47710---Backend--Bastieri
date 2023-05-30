@@ -1,9 +1,10 @@
 import { Router } from "express";
-import CartManager from "../managers/cartManager.js";
+import { __dirname } from "../path.js";
+import CartManager from "../dao/fileSystem/cartManagerFS.js";
 import ProductManager from "../managers/productManager.js";
 
 const router = Router();
-const cartManager = new CartManager('./cart.json')
+const cartManager = new CartManager(__dirname + './cart.json')
 
 router.get('/', async (req,res)=>{
     const {limit} = req.query;

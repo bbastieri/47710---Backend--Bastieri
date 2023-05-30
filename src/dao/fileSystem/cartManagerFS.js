@@ -1,6 +1,6 @@
 import fs from 'fs';
 
-class CartManager {
+export default class CartManagerFS {
 
     constructor (path) {
         this.path = path;
@@ -77,4 +77,3 @@ class CartManager {
     }
 };
 
-export default CartManager;
