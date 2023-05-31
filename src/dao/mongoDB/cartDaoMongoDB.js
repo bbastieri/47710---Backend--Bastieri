@@ -1,6 +1,6 @@
 import { CartModel } from "./models/cartModel";
 
-export default class CartManagerMongoDB {
+export default class CartDaoMongoDB {
 
     async getCartByID (id) {
         try{

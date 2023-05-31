@@ -1,6 +1,6 @@
 import { MessageModel } from "./models/messagesModel";
 
-export default class MessageManagerMongoDB {
+export default class MessageDaoMongoDB {
 
     async getMessages () {
         try{

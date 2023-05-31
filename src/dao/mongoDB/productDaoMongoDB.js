@@ -1,6 +1,6 @@
 import { ProductsModel } from "./models/productsModel";
 
-export default class ProductManagerMongoDB {
+export default class ProductDaoMongoDB {
 
     async getProducts () {
         try{
