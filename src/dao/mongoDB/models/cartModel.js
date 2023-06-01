@@ -1,11 +1,13 @@
 import mongoose from "mongoose";
 
+const cartCollection = 'cart';
+
 const cartSchema = new mongoose.Schema ({
-    title: { type: String, required: true},
-    totalPrice: { type: Number, required: true},
+    cart: { type: Array, default: []},
+    totalPrice: { type: Number, default: true}
 });
 
 export const CartModel = mongoose.model(
-    'cart',
+    cartCollection,
     cartSchema
 );
