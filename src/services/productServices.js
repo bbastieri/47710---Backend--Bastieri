@@ -1,10 +1,10 @@
-import ProductDaoMongoDB from "../dao/mongoDB/productDaoMongoDB"; 
+import ProductDaoMongoDB from "../dao/mongoDB/productDaoMongoDB.js"; 
 
 const prodDaoMongoDB = new ProductDaoMongoDB();
 
 export const getAllService = async () => {
     try {
-        const allDocuments = await prodDaoMongoDB.getProducts();
+        const allDocuments = await prodDaoMongoDB.getAllProducts();
         return allDocuments;
     } catch (error) {
         console.log(error)

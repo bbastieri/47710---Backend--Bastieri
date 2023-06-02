@@ -1,8 +1,8 @@
-import { ProductsModel } from "./models/productsModel";
+import { ProductsModel } from "./models/productsModel.js";
 
 export default class ProductDaoMongoDB {
 
-    async getProducts () {
+    async getAllProducts () {
         try{
             const response = await ProductsModel.find({});
             return response;
@@ -11,9 +11,9 @@ export default class ProductDaoMongoDB {
         }
     };
 
-    async getProductByID (id) {
+    async getProductByID (pid) {
         try{
-            const response = await ProductsModel.findById(id);
+            const response = await ProductsModel.findById(pid);
             return response;
         }catch (error) {
             console.log(error)
@@ -29,18 +29,18 @@ export default class ProductDaoMongoDB {
         }
     };
 
-    async updateProduct (id, obj) {
+    async updateProduct (pid, obj) {
         try{
-            await ProductsModel.updateOne({_id: id, obj});
+            await ProductsModel.updateOne({_id: pid, obj});
             return obj;
         }catch (error) {
             console.log(error)
         }
     };
 
-    async deleteProductByID (id) {
+    async deleteProductByID (pid) {
         try{
-            const response = await ProductsModel.findByIdAndDelete(id);
+            const response = await ProductsModel.findByIdAndDelete(pid);
             return response;
         }catch (error) {
             console.log(error)
