@@ -56,4 +56,4 @@ export const deleteByIDController = async (req, res, next) => {
     } catch (error) {
         next(error);
     }
-}
+};
