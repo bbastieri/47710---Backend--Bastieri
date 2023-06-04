@@ -1,8 +1,8 @@
-import { MessageModel } from "./models/messagesModel";
+import { MessageModel } from "./models/messagesModel.js";
 
 export default class MessageDaoMongoDB {
 
-    async getMessages () {
+    async getAllMessages () {
         try{
             const response = await MessageModel.find({});
             return response;
@@ -11,10 +11,13 @@ export default class MessageDaoMongoDB {
         }
     };
 
-    async addMessage (obj) {
+    async addMessage (userName, message) {
         try{
-            const response = await MessageModel.create(obj);
-            return response;
+            const newMessage = await MessageModel.create({
+                userName: userName,
+                message: message
+            });
+            return newMessage;
         }catch (error) {
             console.log(error)
         }
