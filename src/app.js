@@ -6,7 +6,7 @@ import productRouter from './routes/productRouter.js';
 import cartRouter from './routes/cartRouter.js';
 import viewsRouter from './routes/viewsRouter.js'
 import { Server } from 'socket.io';
-import './db/db.js'
+import './db/db.js';
 
 const app = express ();
 
