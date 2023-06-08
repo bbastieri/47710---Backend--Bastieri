@@ -3,7 +3,8 @@ import {
     getByIDService,
     addService,
     updateService,
-    deleteByIDService
+    deleteByIDService,
+    getByKeyService
 } from '../services/productServices.js';
 
 export const getAllController = async (req, res, next) => {
@@ -110,4 +111,16 @@ export const deleteByIDController = async (req, res, next) => {
     } catch (error) {
         next(error)
     }
+};
+
+export const getByKeyController = async (req, res, next) =>{
+    try {
+        const {key} = req.params;
+        const {value} = req.params;
+        const productByKey = await getByKeyService (key, value)
+        if(!productByKey) throw new Error ("Product not found!")
+        res.json(productSearched)
+    } catch (error) {
+        next(error)
+    };
 };
