@@ -1,10 +1,10 @@
 import { ProductsModel } from "./models/productsModel.js";
 
-export default class ProductDaoMongoDB {
+export default class ProductDao {
 
-    async getAllProducts () {
+    async getAllProducts (page=1, limit=10) {
         try{
-            const response = await ProductsModel.find({});
+            const response = await ProductsModel.paginate({},{page, limit});
             return response;
         }catch (error) {
             console.log(error)
@@ -47,4 +47,14 @@ export default class ProductDaoMongoDB {
         }
     };
 
-}
+    async getProductByKey (key, value) {
+        try {
+            const query = {};
+            query[key] = value;
+            const response = await ProductsModel.find(query)
+            return response
+        }catch (error) {
+            console.log(error)
+        }
+    };
+}    

@@ -8,9 +8,22 @@ import {
 
 export const getAllController = async (req, res, next) => {
     try {
-        const { limit } = req.query;
-        const docs = await getAllService(limit);
-        res.status(200).send(docs); 
+        const { page, limit } = req.query;
+        const docs = await getAllService(page, limit);
+        const prevLink = docs.hasPrevPage ? `http://localhost:8080/products?page=${docs.prevPage}` : null
+        const nextLink = docs.hasNextPage ? `http://localhost:8080/products?page=${docs.nextPage}` : null
+        const productsFile = {
+            status: "success",
+            payload: docs.docs,
+            totalPages: docs.totalPages,
+            prevPage: docs.prevPage,
+            nextPage: docs.nextPage,
+            hasPrevPage: docs.hasPrevPage,
+            hasNextPage: docs.hasNextPage,
+            prevLink: prevLink,
+            nextLink: nextLink
+        }    
+        res.json('products', {productsFile}); 
     } catch (error) {
         next(error)
     }
@@ -20,7 +33,11 @@ export const getByIDController = async (req, res, next) => {
     try {
         const { pid } = req.params;
         const docs = await getByIDService(pid);
-        res.status(200).send(docs);
+        if(!docs){
+            throw new Error('ID does not exist!')
+        } else{
+            res.json(docs)
+        };
     } catch (error) {
         next(error)
     }
@@ -47,7 +64,11 @@ export const addController = async (req, res, next) => {
             stock,
             status
         });
-        res.status(201).json(newDoc);
+        if(!newDoc){
+            throw new Error('One of the fields is incorrect, please verify...')
+        } else{
+            res.json(newDoc)
+        };
     } catch (error) {
         next(error)
     }
@@ -75,7 +96,7 @@ export const updateController = async (req, res, next) => {
             stock,
             status
         });
-        res.status(200).send(prodUpdated);
+        res.joson(prodUpdated);
     } catch (error) {
         next(error)
     }
