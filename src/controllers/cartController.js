@@ -3,13 +3,15 @@ import {
     getCartByIdService,
     createCartService,
     addToCartService,
-    deleteByIDService
+    deleteFromCartService,
+    deleteCartByIDService,
+    updateProdQuantityService
 } from '../services/cartServices.js'
 
 export const getAllController = async (req, res, next) => {
     try {
         const docs = await getAllCartsService();
-        res.status(200).send({status: "success", message:"Cart found", payload: docs})
+        res.json(docs)
     } catch (error) {
         next(error);
     }
@@ -18,8 +20,8 @@ export const getAllController = async (req, res, next) => {
 export const getByIDController = async (req, res, next) => {
     try {
         const { cid } = req.params;
-        const docs = await getCartByIdService(Number(cid));
-        res.status(200).json(docs);
+        const docs = await getCartByIdService((cid));
+        res.json(docs)
     } catch (error) {
         next(error);
     }
@@ -28,7 +30,7 @@ export const getByIDController = async (req, res, next) => {
 export const createCartController = async (req, res, next) => {
     try {
         const docs = await createCartService();
-        res.status(201).send(docs)
+        res.json(docs)
     } catch (error) {
         next(error);
     }
@@ -38,22 +40,39 @@ export const addToCartController = async (req, res, next) => {
     try {
         const { cid, pid } = req.params;
         const product = await addToCartService(cid,pid);
-        if (product) {
-          res.status(201).send({status: "success",mensaje: 'Product successfully added to cart!',payload: product});
-        } else {
-          res.status(404).send({status: "error",mensaje:'The product or cart not found!'});
-        }
+        res.json(product)
     } catch (error) {
         next(error);
     }
 };
 
-export const deleteByIDController = async (req, res, next) => {
+export const deleteCartByIDController = async (req, res, next) => {
     try {
         const { cid } = req.params;
-        const productDeleted = await deleteByIDService(cid);
-        res.status(200).send(productDeleted);
+        const cartDeleted = await deleteCartByIDService(cid);
+        res.json(cartDeleted);
     } catch (error) {
         next(error);
     }
 };
+
+export const deleteFromCartController = async (req, res, next) => {
+    try {
+        const { cid, pid} = req.params;
+        const productDeleted = await deleteFromCartService(cid, pid);
+        res.json(productDeleted)    
+    } catch (error) {
+        next (error)
+    }
+};
+
+export const updateProdQuantityController = async (req, res, next) => {
+    try {
+       const {cid, pid} = req.params
+       const { quantity } = req.body
+       const product = await updateProdQuantityService(cid, pid , quantity)
+       res.json(product)
+    } catch (error) {
+        next(error);
+    }
+}

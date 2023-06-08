@@ -4,15 +4,19 @@ import {
     getByIDController,
     createCartController,
     addToCartController,
-    deleteByIDController
+    deleteCartByIDController,
+    deleteFromCartController,
+    updateProdQuantityController
 } from '../controllers/cartController.js'
 
 const router = Router();
 
-router.get("/", getAllController);
-router.get("/:cid", getByIDController);
-router.post("/", createCartController);
-router.post("/:cid/product/:pid", addToCartController);
-router.delete("/:id", deleteByIDController);
+router.get('/', getAllController);
+router.get('/:id', getByIDController);
+router.post('/', createCartController);
+router.put('/:cartId/:prodId', addToCartController);
+router.delete('/:cartId', deleteCartByIDController);
+router.delete('/:cartId/:prodId', deleteFromCartController);
+router.put('/:cartId/quantity/:prodId', updateProdQuantityController);
 
 export default router;

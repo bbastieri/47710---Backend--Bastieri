@@ -1,50 +1,74 @@
-import CartDaoMongoDB from "../dao/mongoDB/cartDaoMongoDB.js";
+import CartDao from '../dao/mongoDB/cartDao.js'
 
-const cartDaoMongoDB = new CartDaoMongoDB();
+const cartDao = new CartDao();
 
- export const getAllCartsService = async () => {
+export const getAllCartsService = async () => {
     try {
-      const docs = await cartDaoMongoDB.getAllCarts();
+      const docs = await cartDao.getAllCarts();
       return docs;
     } catch (error) {
           console.log(error);
     }
-  };
+};
 
- export const getCartByIdService = async (cid) => {
+export const getCartByIdService = async (cid) => {
     try {
-      const documentByID = await cartDaoMongoDB.getCartByID(cid);
+      const documentByID = await cartDao.getCartByID(cid);
       if (!documentByID)
         return 'The cart does not exist!';
       else return doc;
     } catch (error) {
           console.log(error);
     }
-  };  
+};  
 
- export const createCartService = async (obj) =>{
+export const createCartService = async () =>{
     try {
-        const newCart = await cartDaoMongoDB.createCart(obj);
+        const newCart = await cartDao.createCart();
         return newCart;
     } catch (error) {
         console.log(error);
     }
-  };
+};
  
-  export const addToCartService = async (cid, pid) =>{
+export const addToCartService = async (cid, pid) =>{
     try {
-        const documentAdded = await cartDaoMongoDB.addToCart(cid, pid);
+        const documentAdded = await cartDao.addToCart(cid, pid);
         return documentAdded;
     } catch (error) {
         console.log(error);
     }
-  };
-  
- export const deleteByIDService = async (cid) =>{
+};
+
+export const deleteFromCartService = async (cid, pid) => {
     try {
-        const cartDeleted = await prodDaoMongoDB.deleteCartByID(cid)
+      const prodDeleted = await cartDao.deleteProdFromCart(cid, pid);
+      if(!prodDeleted){
+        throw new Error ('Product not found')
+      }
+      return prodDeleted
+    } catch (error) {
+      console.log (error)
+    }
+};
+  
+export const deleteCartByIDService = async (cid) =>{
+    try {
+        const cartDeleted = await cartDao.deleteCartByID(cid)
         return cartDeleted
     } catch (error){
         console.log(error)
     }
- };
+};
+
+export const updateProdQuantityService = async (cid, pid, quantity) =>{
+    try {
+      const prod = await cartDao.updateProdQuantityService(cid, pid, quantity)
+      if (!prod) {
+        throw new Error ('Product not found')
+      }
+    } catch (error) {
+      console.log(error)
+    }
+};
+

@@ -107,7 +107,7 @@ export const deleteByIDController = async (req, res, next) => {
     try {
         const { pid } = req.params;
         const productDeleted = await deleteByIDService(pid);
-        res.status(200).send(productDeleted);
+        res.json(productDeleted)
     } catch (error) {
         next(error)
     }
