@@ -51,15 +51,6 @@ export const deleteFromCartService = async (cid, pid) => {
       console.log (error)
     }
 };
-  
-export const deleteCartByIDService = async (cid) =>{
-    try {
-        const cartDeleted = await cartDao.deleteCartByID(cid)
-        return cartDeleted
-    } catch (error){
-        console.log(error)
-    }
-};
 
 export const updateProdQuantityService = async (cid, pid, quantity) =>{
     try {

@@ -11,10 +11,10 @@ import {
 const router = Router();
 
 router.get('/', getAllController);
-router.get('/:id',  getByIDController);
+router.get('/:pid',  getByIDController);
 router.post('/', addController);
-router.put('/:id', updateController);
-router.delete('/:id', deleteByIDController);
+router.put('/:pid', updateController);
+router.delete('/:pid', deleteByIDController);
 router.get('/search/:key/:value', getByKeyController)
 
 export default router;

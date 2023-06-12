@@ -80,15 +80,6 @@ export default class CartDao {
         };
     };
 
-    async deleteCartByID (cid) {
-        try{
-            const response = await ProductsModel.findByIdAndDelete(cid);
-            return response;
-        }catch (error) {
-            console.log(error)
-        }
-    };
-
     async updateProductQuantity (cid, pid, newQuantity) {
         try {
             const cartFinder = await CartModel.findById(cid);

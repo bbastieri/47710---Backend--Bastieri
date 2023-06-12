@@ -2,9 +2,9 @@ import ProductDao from "../dao/mongoDB/productDao.js";
 
 const prodDao = new ProductDao();
 
-export const getAllService = async (page, limit) => {
+export const getAllService = async (page, limit, category) => {
     try {
-        const allDocuments = await prodDao.getAllProducts(page, limit);
+        const allDocuments = await prodDao.getAllProducts(page, limit, category);
         return allDocuments;
     } catch (error) {
         console.log(error)

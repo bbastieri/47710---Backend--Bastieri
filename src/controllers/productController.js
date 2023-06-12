@@ -9,8 +9,8 @@ import {
 
 export const getAllController = async (req, res, next) => {
     try {
-        const { page, limit } = req.query;
-        const docs = await getAllService(page, limit);
+        const { page, limit, category } = req.query;
+        const docs = await getAllService(page, limit, category);
         const prevLink = docs.hasPrevPage ? `http://localhost:8080/products?page=${docs.prevPage}` : null
         const nextLink = docs.hasNextPage ? `http://localhost:8080/products?page=${docs.nextPage}` : null
         const productsFile = {
@@ -24,7 +24,7 @@ export const getAllController = async (req, res, next) => {
             prevLink: prevLink,
             nextLink: nextLink
         }    
-        res.json('products', {productsFile}); 
+        res.json(productsFile); 
     } catch (error) {
         next(error)
     }

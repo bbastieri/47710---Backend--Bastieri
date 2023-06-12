@@ -2,10 +2,15 @@ import { ProductsModel } from "./models/productsModel.js";
 
 export default class ProductDao {
 
-    async getAllProducts (page=1, limit=10) {
+    async getAllProducts (page=1, limit=10, category) {
         try{
-            const response = await ProductsModel.paginate({},{page, limit});
-            return response;
+            if (category){
+                const response = await ProductsModel.paginate({category: category},{page, limit});
+                return response;
+            } else {
+                const response = await ProductsModel.paginate({},{page, limit})
+                return response
+            }
         }catch (error) {
             console.log(error)
         }
