@@ -1,12 +1,16 @@
 import express from 'express';
 import { __dirname } from './path.js';
 import { errorHandler } from './middlewares/errorHandler.js';
+import './db/db.js';
 import handlebars from 'express-handlebars';
+import { Server } from 'socket.io';
+import cookieParser from 'cookie-parser';
+import Mongostore from 'connect-mongo';
+import session from 'express-session';
 import productRouter from './routes/productRouter.js';
 import cartRouter from './routes/cartRouter.js';
 import viewsRouter from './routes/viewsRouter.js'
-import { Server } from 'socket.io';
-import './db/db.js';
+import usersRouter from './routes/usersRouter.js'
 
 const app = express ();
 
@@ -17,11 +21,33 @@ app.use(errorHandler);
 
 app.use('/api/products', productRouter);
 app.use('/api/cart', cartRouter);
+app.use('/api/users', usersRouter);
 
 app.engine('handlebars', handlebars.engine());
 app.set('view engine', 'handlebars');
 app.set('views', __dirname +'/views');
 app.use ('/', viewsRouter);
+
+const storeOptions = {
+    store: new Mongostore ({
+        mongoUrl: 'mongodb+srv://bbastieri:Galito01@cluster0.fnqi1b0.mongodb.net/ecommerce?retryWrites=true&w=majority',
+        crypto: {
+            secret: 'secretPass'
+        },
+        ttl: 60,
+        autoRemove: 'interval',
+        autoRemoveInterval: 10,
+    }),
+    secret: 'secretPass2',
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        maxAge: 60000
+    }
+}
+
+app.use(cookieParser());
+app.use(session(storeOptions));
    
 const httpServer = app.listen(8080, ()=>{
     console.log(`Server is listening in port 8080...`)
