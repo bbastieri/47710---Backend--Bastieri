@@ -1,4 +1,4 @@
-import { createUserService, loginUserService  } from "../services/usersServices.js";
+import { createUserService, loginUserService } from "../services/usersServices.js";
 
 export const createUserController = async (req, res, next) => {
     try {
@@ -16,7 +16,7 @@ export const createUserController = async (req, res, next) => {
 export const loginUserController = async (req, res, next) => {
     try {
         const { email, password } = req.body;
-        const user = await loginUserController(req.body);
+        const user = await loginUserService(req.body);
         if (user) {
             req.session.email = email; 
             req.session.password = password;
@@ -27,4 +27,30 @@ export const loginUserController = async (req, res, next) => {
     } catch (error) {
         next (error)
     }
-}
+};
+
+export const registerResponse = async (req, res, next) => {
+    try {
+        res.json({message: 'Register OK', session: req.session})
+    } catch (error) {
+        next (error)
+    }
+};
+
+export const loginResponse = async (req, res, next) => {
+    try {   
+        res.json({message: 'Login OK', session: req.session})
+    } catch (error) {
+        next (error)
+    }
+};
+
+export const githubResponse = async (req, res, next) => {
+    try {
+        const { firstName, lastName, email, role, githubUser } = req.user;
+        res.json({message: 'Github Register/Login OK', session: req.session, userData: { firstName, lastName, email, role, githubUser}});
+    } catch (error) {
+        next (error)
+    }
+};
+

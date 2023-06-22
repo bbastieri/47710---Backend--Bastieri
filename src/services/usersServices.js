@@ -9,13 +9,31 @@ export const createUserService = async (userData) => {
     } catch (error) {
         console.log (error)
     }
-}
+};
 
 export const loginUserService = async (userData) => {
     try {
-        const login = await users.loginUser(userData);
+        const login = await usersDao.loginUser(userData);
         return login
     } catch (error) {
         console.log (error)
     }
-}
+};
+
+export const getByIDService = async (id) => {
+    try {
+        const getByID = await usersDao.getUserByID(id);
+        return getByID
+    } catch (error) {
+        console.log (error)
+    }
+};
+
+export const getByEmailService = async (email) => {
+    try { 
+        const getByEmail = await usersDao.getUserByEmail(email);
+        return getByEmail
+    } catch (error) {
+        console.log(error)
+    }
+};

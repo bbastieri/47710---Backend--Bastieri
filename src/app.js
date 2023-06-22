@@ -1,5 +1,5 @@
 import express from 'express';
-import { __dirname } from './path.js';
+import { __dirname } from './utils.js';
 import { errorHandler } from './middlewares/errorHandler.js';
 import './db/db.js';
 import handlebars from 'express-handlebars';
@@ -7,10 +7,12 @@ import { Server } from 'socket.io';
 import cookieParser from 'cookie-parser';
 import Mongostore from 'connect-mongo';
 import session from 'express-session';
+import passport from 'passport-local';
 import productRouter from './routes/productRouter.js';
 import cartRouter from './routes/cartRouter.js';
-import viewsRouter from './routes/viewsRouter.js'
-import usersRouter from './routes/usersRouter.js'
+import viewsRouter from './routes/viewsRouter.js';
+import usersRouter from './routes/usersRouter.js';
+
 
 const app = express ();
 
