@@ -7,7 +7,7 @@ import { Server } from 'socket.io';
 import cookieParser from 'cookie-parser';
 import Mongostore from 'connect-mongo';
 import session from 'express-session';
-import passport from 'passport-local';
+import passport from 'passport';
 import productRouter from './routes/productRouter.js';
 import cartRouter from './routes/cartRouter.js';
 import viewsRouter from './routes/viewsRouter.js';
@@ -20,15 +20,22 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(express.static(__dirname + '/public'));
 app.use(errorHandler);
+app.use(cookieParser());
 
-app.use('/api/products', productRouter);
-app.use('/api/cart', cartRouter);
-app.use('/api/users', usersRouter);
+/* ROUTES */
+
+app.use('/products', productRouter);
+app.use('/cart', cartRouter);
+app.use('/users', usersRouter);
+app.use ('/', viewsRouter);
+
+/* HANDLEBARS */
 
 app.engine('handlebars', handlebars.engine());
 app.set('view engine', 'handlebars');
 app.set('views', __dirname +'/views');
-app.use ('/', viewsRouter);
+
+/* MONGODB */
 
 const storeOptions = {
     store: new Mongostore ({
@@ -47,13 +54,21 @@ const storeOptions = {
         maxAge: 60000
     }
 }
-
-app.use(cookieParser());
 app.use(session(storeOptions));
-   
+
+/* PASSPORT */
+
+app.use(passport.initialize());
+app.use(passport.session())
+
+/* PORT */   
+
 const httpServer = app.listen(8080, ()=>{
     console.log(`Server is listening in port 8080...`)
 });
+
+
+/* WEBSOCKET */
 
 const socketServer = new Server(httpServer);
 
@@ -68,7 +83,7 @@ socketServer.on('connection',  async (socket) =>{
     socketServer.emit("messages", await messagesManager.getAllMessages());
 
     socket.on("disconnect", () => {
-        console.log("¡🔴 User disconnect!");
+        console.log("¡User disconnect!");
     });
 
     socket.on("newUser", (userName) => {

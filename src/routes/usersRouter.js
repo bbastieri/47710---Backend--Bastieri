@@ -4,7 +4,7 @@ import { createUserController, loginUserController, registerResponse, loginRespo
 
 const router = Router();
 
-router.post('/register', passport.authenticate('register', registerResponse));
+router.post('/register', passport.authenticate('register'), registerResponse);
 router.post('/login', passport.authenticate('login'), loginResponse);
 
 router.get('/register-github', passport.authenticate('github', {scope: ['user:email'] }));

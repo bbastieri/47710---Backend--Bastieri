@@ -10,7 +10,7 @@ const strategyOptions = {
     callbackURL: 'http://localhost:8080/users/github'
 };
 
-const github = async(accessToken, refreshToken, profile, done) =>{
+const github = async(profile, done) =>{
     console.log('profile:::', profile);
     const email = profile._json.email !== null ? profile._json.email : profile._json.blog;
     const user = await userDao.getUserByEmail(email);
