@@ -12,7 +12,9 @@ import productRouter from './routes/productRouter.js';
 import cartRouter from './routes/cartRouter.js';
 import viewsRouter from './routes/viewsRouter.js';
 import usersRouter from './routes/usersRouter.js';
+import dotenv from 'dotenv';
 
+dotenv.config()
 
 const app = express ();
 
@@ -61,9 +63,11 @@ app.use(session(storeOptions));
 app.use(passport.initialize());
 app.use(passport.session())
 
-/* PORT */   
+/* PORT */
 
-const httpServer = app.listen(8080, ()=>{
+const PORT = process.env.PORT
+
+const httpServer = app.listen(PORT, ()=>{
     console.log(`Server is listening in port 8080...`)
 });
 

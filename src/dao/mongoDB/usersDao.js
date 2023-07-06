@@ -5,9 +5,8 @@ export default class UserDao {
 
     async createUser (userData) {
       try {
-        const email = userData.email;
-        const password = userData.password;
-        const existUser = await UserModel.find(email);
+        const { firstName, lastName,  age, cart,  email, password } = userData;
+        const existUser = await UserModel.find({email});
         if (existUser.length === 0) {
             if (email === 'adminCoder@coder.com' && password === 'adminCoder123'){
                 return await UserModel.create({...userData, password: createHash(password), role: 'admin'});
@@ -25,8 +24,7 @@ export default class UserDao {
   
     async loginUser (userData) {
       try {
-        const email = userData.email;
-        const password = userData.password;
+        const { email, password } = userData;
         const findUser = await UserModel.findOne({email: email, password: password});
         if (!findUser) {
             return null;
@@ -53,7 +51,7 @@ export default class UserDao {
 
     async getUserByEmail (email) {
       try { 
-        const userByEmail = await UserModel.findOne(email);
+        const userByEmail = await UserModel.findOne({email});
         if (userByEmail) {
           return userByEmail
         } else {
