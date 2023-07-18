@@ -12,11 +12,11 @@ import productRouter from './routes/productRouter.js';
 import cartRouter from './routes/cartRouter.js';
 import viewsRouter from './routes/viewsRouter.js';
 import usersRouter from './routes/usersRouter.js';
-import dotenv from 'dotenv';
+import config from './config.js';
 
-dotenv.config()
 
 const app = express ();
+const port = config.port || 8080;
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
@@ -41,7 +41,7 @@ app.set('views', __dirname +'/views');
 
 const storeOptions = {
     store: new Mongostore ({
-        mongoUrl: 'mongodb+srv://bbastieri:Galito01@cluster0.fnqi1b0.mongodb.net/ecommerce?retryWrites=true&w=majority',
+        mongoUrl: config.mongoAtlasURL,
         crypto: {
             secret: 'secretPass'
         },

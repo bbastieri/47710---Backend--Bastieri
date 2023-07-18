@@ -1,9 +1,10 @@
 import jwt from "jsonwebtoken";
 import UserDao from "../dao/mongoDB/usersDao.js";
+import config from "../config.js";
 
 const userDao = new UserDao();
 
-const PRIVATE_KEY = '1234';
+const privateKeyJWT = config.privateKeyJWT;
 
 export const generateToken = (user) => {
     const payload = {
@@ -14,7 +15,7 @@ export const generateToken = (user) => {
         age: user.age,    
     }
 
-    const token = jwt.sign(payload, PRIVATE_KEY, {
+    const token = jwt.sign(payload, privateKeyJWT, {
         expiresIn: '1h',
     });
     return token;
@@ -25,7 +26,7 @@ export const checkAuth = async (req, res, next) => {
         const authHeader = req.headers['authorization'];
         if(!authHeader) return res.status(401).json({msg:'Unauthorized'});
         const token = authHeader.split('')[1];
-        const decode = jwt.verify(token, PRIVATE_KEY);
+        const decode = jwt.verify(token, privateKeyJWT);
         const user = await userDao.getUserByID(decode.userID);
         if(!user) return res.status(401).json({msg:'Unauthorized'});
         req.user = user;
@@ -33,4 +34,4 @@ export const checkAuth = async (req, res, next) => {
     } catch (error) {
         console.log(error)
     }
-}
+};
