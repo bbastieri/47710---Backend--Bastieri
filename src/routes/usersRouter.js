@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import passport from 'passport';
-import { registerResponse, loginResponse, githubResponse } from '../controllers/usersController.js';
-import { register, login, loginFront, privateRoute } from '../controllers/users.controller.js';
+/* import { registerResponse, loginResponse, githubResponse } from '../controllers/usersController.js'; */
+import { register, login, loginFront, privateRoute } from '../controllers/usersController.js';
 import { checkAuth } from '../jwt/auth.js';
 
 const router = Router();

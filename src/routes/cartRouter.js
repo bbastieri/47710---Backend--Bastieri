@@ -7,14 +7,17 @@ import {
     deleteFromCartController,
     updateProdQuantityController
 } from '../controllers/cartController.js'
+import { isUser } from '../middlewares/authorization.js'
+import TicketController from "../controllers/ticketController.js";
 
 const router = Router();
 
 router.get('/', getAllController);
 router.get('/:id', getByIDController);
 router.post('/', createCartController);
-router.put('/:cid/:pid', addToCartController);
-router.delete('/:cid/:pid', deleteFromCartController);
+router.put('/:cid/product/:pid', isUser, addToCartController);
+router.delete('/:cid/products/:pid', deleteFromCartController);
 router.put('/:cid/quantity/:pid', updateProdQuantityController);
+router.post("/:cid/purchase" , TicketController.generateTicket)
 
 export default router;
