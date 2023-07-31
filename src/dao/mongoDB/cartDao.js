@@ -1,4 +1,6 @@
 import { CartModel } from "./models/cartModel.js";
+import { ProductsModel } from "./models/productsModel.js";
+import { UserModel } from "./models/usersModel.js"
 
 export default class CartDao {
 
@@ -27,7 +29,7 @@ export default class CartDao {
         } catch(error) {
             console.log(error)
         }
-    }
+    };
 
     async addToCart (cid, pid) {
         try{
@@ -51,14 +53,14 @@ export default class CartDao {
         }catch (error){
             console.log(error)
         }
-    }
+    };
 
     async deleteProdFromCart (pid, cid){
         try {
             const cartFinder = await CartModel.findById(cid);
             const existingProduct = cartFinder.products.find(prod => prod._id === pid);
             if(!existingProduct){
-                throw new Error('the product you are trying to remove does not exist')
+                throw new Error('The product you are trying to remove does not exist')
             } else{
                 if(existingProduct.quantity > 1){
                     const updtQuantity = existingProduct.quantity - 1
@@ -104,6 +106,24 @@ export default class CartDao {
             } catch (error) {
             console.log(error)
         };
+    };
+
+    async getCartByUser(uid) {
+        try {
+            const user = await UserModel.findOne({ _id: uid }).populate('carts');
+            if (user) {
+                if (user.cart) {
+                    return user.cart;
+                } else {
+                    return { message: 'Cart user not found' };
+                }
+            } else {
+                return { message: 'User not found' };
+            }
+        } catch (error) {
+            console.log(error);
+            throw error; 
+        }
     };
 
 }

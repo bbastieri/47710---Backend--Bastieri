@@ -37,3 +37,15 @@ export const getByEmailService = async (email) => {
         console.log(error)
     }
 };
+
+export const getUserDto = async (id) => {
+    try {
+      const data = await usersDaoMongo.getByIdDTO(id);
+      if(!data) return false
+     return data
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+

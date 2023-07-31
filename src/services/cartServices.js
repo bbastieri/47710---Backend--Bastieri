@@ -1,6 +1,8 @@
-import CartDao from '../dao/mongoDB/cartDao.js'
+import CartDao from '../dao/mongoDB/cartDao.js';
+import ProductDao from '../dao/mongoDB/productDao.js'
 
 const cartDao = new CartDao();
+const ProductDao = new ProductDao();
 
 export const getAllCartsService = async () => {
     try {
@@ -62,4 +64,6 @@ export const updateProdQuantityService = async (cid, pid, quantity) =>{
       console.log(error)
     }
 };
+
+
 

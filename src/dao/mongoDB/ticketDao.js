@@ -4,8 +4,11 @@ export default class TicketDao {
     
     async createTicket (ticketData) {
         try {
-            const response = await ticketModel.create (ticketData);
-            return response
+            const data = await ticketModel.create ({
+                ...ticketData,
+                purchase_datetime: new Date ()
+        });
+            return data
 
         } catch (error) {
             console.log (error)

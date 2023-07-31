@@ -1,10 +1,8 @@
 import mongoose from "mongoose";
 
-const cartCollection = 'cart';
-
 const CartSchema = new mongoose.Schema ({
     products: [ 
-        { type: mongoose.Schema.Types.Mixed, 
+        { type: mongoose.Schema.Types.ObjectId, 
           required: true, ref:'products', 
           quantity: { type: Number, default: 1 }
         }
@@ -16,6 +14,6 @@ CartSchema.pre('find', function(){
 })
 
 export const CartModel = mongoose.model(
-    cartCollection,
+    'carts',
     CartSchema
 );

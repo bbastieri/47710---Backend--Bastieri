@@ -1,5 +1,7 @@
 import { createHash } from "../../utils.js";
 import { UserModel } from "./models/usersModel.js";
+import { CartModel } from "./models/cartModel.js";
+import { UserDTO } from "../../dto/user.dto.js"
 
 export default class UserDao {
 
@@ -12,6 +14,11 @@ export default class UserDao {
                 return await UserModel.create({...userData, password: createHash(password), role: 'admin'});
             } else {
                 const newUser = await UserModel.create({...userData, password: createHash(password)});
+                const newCart = await CartModel.create({ products: [] });
+
+                newUser.cart = newCart._id;
+                await newUser.save();
+
                 return newUser
           }
         } else {
@@ -19,6 +26,7 @@ export default class UserDao {
         }
       } catch (error) {
             console.log(error)
+            throw new Error(error)
       }
     };
   
@@ -61,4 +69,15 @@ export default class UserDao {
         console.log(error)
       }
     };
+
+    async getUserByDTO (_id) {
+      try {
+        const userByDTO = await UserModel.findById(_id);
+        const userDTO = new UserDTO (userByDTO);
+        return userDTO
+      } catch (error){
+        console.log(error)
+      }
+    };
+
   };  
