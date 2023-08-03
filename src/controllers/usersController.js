@@ -1,7 +1,11 @@
 import { createUserService, loginUserService } from "../services/usersServices.js";
 import { generateToken } from "../jwt/auth.js";
 import UserDao from "../dao/mongoDB/usersDao.js";
+import HttpResponse from '../utils/httpResponse.js'
+
+
 const userDao = new UserDao();
+const httpResponse = HttpResponse();
 
 export const register = async (req, res, next) => {
     try {
@@ -58,7 +62,7 @@ export const loginFront = async (req, res, next) => {
       )
         res.json({ msg: 'Login OK', access_token })
     } catch (error) {
-      next(error);
+      return httpResponse.ServerError(res, error)
     }
 };
 
@@ -69,6 +73,6 @@ export const getUserDtoController = async (req, res, next) => {
        res.json(user)
       
       } catch (error) {
-        next(error);
+        return httpResponse.ServerError(res, error)
     }
   }

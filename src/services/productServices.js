@@ -7,7 +7,7 @@ export const getAllService = async (page, limit, category) => {
         const allDocuments = await prodDao.getAllProducts(page, limit, category);
         return allDocuments;
     } catch (error) {
-        console.log(error)
+        throw new Error (error)
     }
 };
 
@@ -17,7 +17,7 @@ export const getByIDService = async (id) => {
         if(!documentByID) throw new Error ('Product not found')
         else return documentByID;
     } catch (error) {
-        console.log(error)
+        throw new Error (error)
     }
 };
 
@@ -27,7 +27,7 @@ export const addService = async (obj) => {
         if(!newProduct) throw new Error ('Validation failed')
         else return newProduct;
     } catch (error) {
-        console.log(error)
+        throw new Error (error)
     }
 };
 
@@ -41,7 +41,7 @@ export const updateService = async (id, obj) => {
             return productUpdated
         }
     } catch (error) {
-        console.log(error)
+        throw new Error (error)
     }
 };
 
@@ -50,7 +50,7 @@ export const deleteByIDService = async (id) =>{
         const productDeleted = await prodDao.deleteProductByID(id)
         return productDeleted
     } catch (error){
-        console.log(error)
+        throw new Error (error)
     }
 };
 
@@ -59,7 +59,7 @@ export const getByKeyService = async (key, value) => {
         const productByKey = await prodDao.getProductByKey(key, value)
         return productByKey
     } catch (error) {
-        console.log(error)
+        throw new Error (error)
     }
 };
 

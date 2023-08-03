@@ -1,4 +1,4 @@
-import { createHash } from "../../utils.js";
+import { createHash } from "../../utils/utils.js";
 import { UserModel } from "./models/usersModel.js";
 import { CartModel } from "./models/cartModel.js";
 import { UserDTO } from "../../dto/user.dto.js"
@@ -25,8 +25,7 @@ export default class UserDao {
           return null;
         }
       } catch (error) {
-            console.log(error)
-            throw new Error(error)
+          throw new Error(error)
       }
     };
   
@@ -40,7 +39,7 @@ export default class UserDao {
             return findUser;
         }
       } catch (error) {
-            console.log(error);
+          throw new Error(error)
       }
     };
     
@@ -53,7 +52,7 @@ export default class UserDao {
           return false
         };
       } catch (error) {
-        console.log(error)
+          throw new Error(error)
       }
     };
 
@@ -66,7 +65,7 @@ export default class UserDao {
           return false
         };
       } catch (error) {
-        console.log(error)
+          throw new Error(error)
       }
     };
 
@@ -76,7 +75,7 @@ export default class UserDao {
         const userDTO = new UserDTO (userByDTO);
         return userDTO
       } catch (error){
-        console.log(error)
+          throw new Error(error)
       }
     };
 

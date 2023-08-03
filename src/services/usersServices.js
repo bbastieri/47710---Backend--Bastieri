@@ -7,7 +7,7 @@ export const createUserService = async (userData) => {
         const newUser = await usersDao.createUser(userData);            
         return newUser
     } catch (error) {
-        console.log (error)
+        throw new Error(error)
     }
 };
 
@@ -16,7 +16,7 @@ export const loginUserService = async (userData) => {
         const login = await usersDao.loginUser(userData);
         return login
     } catch (error) {
-        console.log (error)
+        throw new Error(error)
     }
 };
 
@@ -25,7 +25,7 @@ export const getByIDService = async (id) => {
         const getByID = await usersDao.getUserByID(id);
         return getByID
     } catch (error) {
-        console.log (error)
+        throw new Error(error)
     }
 };
 
@@ -34,7 +34,7 @@ export const getByEmailService = async (email) => {
         const getByEmail = await usersDao.getUserByEmail(email);
         return getByEmail
     } catch (error) {
-        console.log(error)
+        throw new Error(error)
     }
 };
 
@@ -44,7 +44,7 @@ export const getUserDto = async (id) => {
       if(!data) return false
      return data
   } catch (error) {
-    console.log(error);
+      throw new Error(error)           
   }
 };
 

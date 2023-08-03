@@ -1,4 +1,7 @@
 import TicketService from "../services/ticketServices.js";
+import HttpResponse from '../utils/httpResponse.js';
+
+const httpResponse = new HttpResponse();
 
 export default class TicketController {
     async generateTicket (req, res) {
@@ -9,8 +12,7 @@ export default class TicketController {
             const ticket = await TicketService.generateTicket(cid, uid)
             return (res.status(200).json({message: 'Purchase successfull', ticket}))    
         } catch (error){
-            console.log(error)
-            return (res.status(500).json({message: 'Server error'}))
+            return httpResponse.ServerError(res, error)
         }
     }
 };

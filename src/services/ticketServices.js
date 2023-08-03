@@ -17,37 +17,40 @@ function generateCode () {
 
 export default class TicketService {
     async createTicket (cid, uid) {
-        const cart  = await cartDao.getCartByID(cid).populate('products.product')
-        if(!cart) {
-            throw new Error ('Cart not found')
-        }
-
-        const productsNotAvailable =  [];
-
-        for (const item of cart.products){
-            const product = item.product;
-            const quantityRequested = item.quantity;
-            if (product.stock >= quantityRequested){
-                product.stock -= quantityRequested;
-                await product.save();
-            } else {
-                productsNotAvailable.push(product._id)
+        try{
+            const cart  = await cartDao.getCartByID(cid).populate('products.product')
+            if(!cart) {
+                throw new Error ('Cart not found')
             }
-        }
 
-        if (productsNotAvailable.length ===0) {
-            cart.purchased = true;
-            await cart.save()
-            const ticketData = {
-                code: generateCode(),
-                purchase_datetime: new Date(),
-                amount: cart.totalAmount,
-                purchaser: uid
-            };
-            return ticketDao.createTicket(ticketData)
-        } else {
-            return ({productsNotAvailable});
+            const productsNotAvailable =  [];
+
+            for (const item of cart.products){
+                const product = item.product;
+                const quantityRequested = item.quantity;
+                if (product.stock >= quantityRequested){
+                    product.stock -= quantityRequested;
+                    await product.save();
+                } else {
+                    productsNotAvailable.push(product._id)
+                }
+             }
+
+            if (productsNotAvailable.length ===0) {
+                cart.purchased = true;
+                await cart.save()
+                const ticketData = {
+                    code: generateCode(),
+                    purchase_datetime: new Date(),
+                    amount: cart.totalAmount,
+                    purchaser: uid
+                };
+                return ticketDao.createTicket(ticketData)
+            } else {
+                return ({productsNotAvailable});
+            }
+        } catch (error) {
+            throw new Error(error) 
         }
     }
 };
-

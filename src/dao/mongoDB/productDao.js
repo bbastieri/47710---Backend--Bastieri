@@ -12,7 +12,7 @@ export default class ProductDao {
                 return response
             }
         }catch (error) {
-            console.log(error)
+            throw new Error(error)
         }
     };
 
@@ -21,7 +21,7 @@ export default class ProductDao {
             const response = await ProductsModel.findById(pid);
             return response;
         }catch (error) {
-            console.log(error)
+            throw new Error(error)
         }
     };
 
@@ -30,7 +30,7 @@ export default class ProductDao {
             const response = await ProductsModel.create(obj);
             return response;
         }catch (error) {
-            console.log(error)
+            throw new Error(error)
         }
     };
 
@@ -39,7 +39,7 @@ export default class ProductDao {
             await ProductsModel.updateOne({_id: pid, obj});
             return obj;
         }catch (error) {
-            console.log(error)
+            throw new Error(error)
         }
     };
 
@@ -48,7 +48,7 @@ export default class ProductDao {
             const response = await ProductsModel.findByIdAndDelete(pid);
             return response;
         }catch (error) {
-            console.log(error)
+            throw new Error(error)
         }
     };
 
@@ -59,7 +59,7 @@ export default class ProductDao {
             const response = await ProductsModel.find(query)
             return response
         }catch (error) {
-            console.log(error)
+            throw new Error(error)
         }
     };
 }    

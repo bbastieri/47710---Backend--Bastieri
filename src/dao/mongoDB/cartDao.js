@@ -9,27 +9,28 @@ export default class CartDao {
             const response = await CartModel.find({})
             return response
         }catch (error){
-            console.log(error)
+            throw new Error(error)
         }
-    }
+    };
+    
+    async createCart () {
+        try{
+            const response = await CartModel.create({})
+            return response;
+        } catch(error) {
+            throw new Error(error)
+        }
+    };
 
     async getCartByID (cid) {
         try{
             const response = await CartModel.findOne({_id: cid}).populate('products._id');
             return response;
         }catch(error) {
-            console.log(error)
+            throw new Error(error)
         }
     };
 
-    async createCart () {
-        try{
-            const response = await CartModel.create({})
-            return response;
-        } catch(error) {
-            console.log(error)
-        }
-    };
 
     async addToCart (cid, pid) {
         try{
@@ -51,7 +52,7 @@ export default class CartDao {
             const cartUpdate = await CartModel.findById(cid).populate('products._id')
             return cartUpdate            
         }catch (error){
-            console.log(error)
+            throw new Error(error)
         }
     };
 
@@ -78,7 +79,7 @@ export default class CartDao {
             const cartUpdate = await CartModel.findById(cid).populate('products._id')
             return cartUpdate
         } catch (error) {
-            console.log(error)
+            throw new Error(error)
         };
     };
 
@@ -104,7 +105,7 @@ export default class CartDao {
                 const cartUpdate = await CartModel.findById(cid).populate('products._id')
                 return cartUpdate
             } catch (error) {
-            console.log(error)
+                throw new Error(error)
         };
     };
 
@@ -121,8 +122,7 @@ export default class CartDao {
                 return { message: 'User not found' };
             }
         } catch (error) {
-            console.log(error);
-            throw error; 
+            throw new Error(error)
         }
     };
 

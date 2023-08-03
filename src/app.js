@@ -12,6 +12,7 @@ import productRouter from './routes/productRouter.js';
 import cartRouter from './routes/cartRouter.js';
 import viewsRouter from './routes/viewsRouter.js';
 import usersRouter from './routes/usersRouter.js';
+import productRouterFake from './routes/productRouterFake.js'
 import config from './config.js';
 
 
@@ -29,7 +30,8 @@ app.use(cookieParser());
 app.use('/products', productRouter);
 app.use('/cart', cartRouter);
 app.use('/users', usersRouter);
-app.use ('/', viewsRouter);
+app.use('/', viewsRouter);
+app.use('/productsMock', productRouterFake)
 
 /* HANDLEBARS */
 

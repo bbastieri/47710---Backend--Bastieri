@@ -11,7 +11,7 @@ export default class TicketDao {
             return data
 
         } catch (error) {
-            console.log (error)
+            throw new Error(error)
         }
     }
 };
