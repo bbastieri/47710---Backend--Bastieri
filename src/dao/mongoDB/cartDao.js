@@ -1,6 +1,6 @@
 import { CartModel } from "./models/cartModel.js";
-import { ProductsModel } from "./models/productsModel.js";
 import { UserModel } from "./models/usersModel.js"
+import { loggerDev } from "../../utils/logger.js"
 
 export default class CartDao {
 
@@ -9,6 +9,7 @@ export default class CartDao {
             const response = await CartModel.find({})
             return response
         }catch (error){
+            loggerDev.error(error.message)
             throw new Error(error)
         }
     };
@@ -18,6 +19,7 @@ export default class CartDao {
             const response = await CartModel.create({})
             return response;
         } catch(error) {
+            loggerDev.error(error.message)
             throw new Error(error)
         }
     };
@@ -27,6 +29,7 @@ export default class CartDao {
             const response = await CartModel.findOne({_id: cid}).populate('products._id');
             return response;
         }catch(error) {
+            loggerDev.error(error.message)
             throw new Error(error)
         }
     };
@@ -52,6 +55,7 @@ export default class CartDao {
             const cartUpdate = await CartModel.findById(cid).populate('products._id')
             return cartUpdate            
         }catch (error){
+            loggerDev.error(error.message)
             throw new Error(error)
         }
     };
@@ -79,6 +83,7 @@ export default class CartDao {
             const cartUpdate = await CartModel.findById(cid).populate('products._id')
             return cartUpdate
         } catch (error) {
+            loggerDev.error(error.message)
             throw new Error(error)
         };
     };
@@ -105,6 +110,7 @@ export default class CartDao {
                 const cartUpdate = await CartModel.findById(cid).populate('products._id')
                 return cartUpdate
             } catch (error) {
+                loggerDev.error(error.message)
                 throw new Error(error)
         };
     };
@@ -122,8 +128,9 @@ export default class CartDao {
                 return { message: 'User not found' };
             }
         } catch (error) {
+            loggerDev.error(error.message)
             throw new Error(error)
         }
     };
 
-}
+};

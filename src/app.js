@@ -13,7 +13,9 @@ import cartRouter from './routes/cartRouter.js';
 import viewsRouter from './routes/viewsRouter.js';
 import usersRouter from './routes/usersRouter.js';
 import productRouterFake from './routes/productRouterFake.js'
+import loggerRouterTest from './routes/loggerRouterTest.js'
 import config from './config.js';
+import { loggerDev, loggerProd } from './utils/logger.js';
 
 
 const app = express ();
@@ -32,6 +34,7 @@ app.use('/cart', cartRouter);
 app.use('/users', usersRouter);
 app.use('/', viewsRouter);
 app.use('/productsMock', productRouterFake)
+app.use('/loggerTest', loggerRouterTest)
 
 /* HANDLEBARS */
 
@@ -69,9 +72,9 @@ app.use(passport.session())
 
 const PORT = process.env.PORT
 
-const httpServer = app.listen(PORT, ()=>{
-    console.log(`Server is listening in port 8080...`)
-});
+const httpServer = app.listen(port, () => {
+    loggerDev.info(`Server listening at http://localhost:${port}`);
+  });
 
 
 /* WEBSOCKET */

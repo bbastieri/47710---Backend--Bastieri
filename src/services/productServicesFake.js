@@ -1,5 +1,6 @@
 import { ProductsModelFake } from "../dao/mongoDB/models/productsModelFake.js";
 import { generateProduct } from "../utils/faker.js";
+import { loggerDev } from "../utils/logger.js"
 
 export const createProduct = async (cant = 100) => {
     try {
@@ -12,7 +13,8 @@ export const createProduct = async (cant = 100) => {
     return product;        
 
     } catch (error){
-        throw new Error (error)
+      loggerDev.error(error.message)
+      throw new Error (error)
     }
 };
 
@@ -21,6 +23,7 @@ export const getProducts = async() => {
       const products = await ProductsModelFake.find({});
       return products;
     } catch (error) {
+      loggerDev.error(error.message)
       throw new Error(error)
     }
   };

@@ -2,12 +2,13 @@ import { createHash } from "../../utils/utils.js";
 import { UserModel } from "./models/usersModel.js";
 import { CartModel } from "./models/cartModel.js";
 import { UserDTO } from "../../dto/user.dto.js"
+import { loggerDev, loogerDev } from "../../utils/logger.js"
 
 export default class UserDao {
 
     async createUser (userData) {
       try {
-        const { firstName, lastName,  age, cart,  email, password } = userData;
+        const { email, password } = userData;
         const existUser = await UserModel.find({email});
         if (existUser.length === 0) {
             if (email === 'adminCoder@coder.com' && password === 'adminCoder123'){
@@ -25,6 +26,7 @@ export default class UserDao {
           return null;
         }
       } catch (error) {
+          loggerDev.error(error.message)
           throw new Error(error)
       }
     };
@@ -39,6 +41,7 @@ export default class UserDao {
             return findUser;
         }
       } catch (error) {
+        loggerDev.error(error.message)
           throw new Error(error)
       }
     };
@@ -52,6 +55,7 @@ export default class UserDao {
           return false
         };
       } catch (error) {
+          loggerDev.error(error.message)
           throw new Error(error)
       }
     };
@@ -65,6 +69,7 @@ export default class UserDao {
           return false
         };
       } catch (error) {
+          loggerDev.error(error.message)
           throw new Error(error)
       }
     };
@@ -75,6 +80,7 @@ export default class UserDao {
         const userDTO = new UserDTO (userByDTO);
         return userDTO
       } catch (error){
+          loggerDev.error(error.message)
           throw new Error(error)
       }
     };

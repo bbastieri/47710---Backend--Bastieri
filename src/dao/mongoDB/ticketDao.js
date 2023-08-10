@@ -1,4 +1,5 @@
 import { ticketModel } from "./models/ticketmodel.js";
+import { loggerDev } from "../../utils/logger.js"
 
 export default class TicketDao {
     
@@ -11,6 +12,7 @@ export default class TicketDao {
             return data
 
         } catch (error) {
+            loggerDev.error(error.message)
             throw new Error(error)
         }
     }

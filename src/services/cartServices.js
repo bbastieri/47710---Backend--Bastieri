@@ -1,9 +1,8 @@
 import CartDao from '../dao/mongoDB/cartDao.js';
-import ProductDao from '../dao/mongoDB/productDao.js'
 import HttpResponse from '../utils/httpResponse.js';
+import { loggerDev } from '../utils/logger.js';
 
 const cartDao = new CartDao();
-const productDao = new ProductDao();
 const httpResponse = new HttpResponse();
 
 export const getAllCartsService = async () => {
@@ -11,6 +10,7 @@ export const getAllCartsService = async () => {
       const docs = await cartDao.getAllCarts();
       return docs;
     } catch (error) {
+        loggerDev.error(error.message)
         throw new Error (error)
     }
 };
@@ -22,6 +22,7 @@ export const getCartByIdService = async (cid) => {
         return 'The cart does not exist!';
       else return doc;
     } catch (error) {
+        loggerDev.error(error.message)
         throw new Error (error)
     }
 };  
@@ -31,6 +32,7 @@ export const createCartService = async () =>{
         const newCart = await cartDao.createCart();
         return newCart;
     } catch (error) {
+        loggerDev.error(error.message)
         throw new Error (error)
     }
 };
@@ -40,6 +42,7 @@ export const addToCartService = async (cid, pid) =>{
         const documentAdded = await cartDao.addToCart(cid, pid);
         return documentAdded;
     } catch (error) {
+      loggerDev.error(error.message)
         throw new Error (error)
     }
 };
@@ -52,6 +55,7 @@ export const deleteFromCartService = async (cid, pid) => {
       }
       return prodDeleted
     } catch (error) {
+        loggerDev.error(error.message)
         throw new Error (error)
     }
 };
@@ -64,6 +68,7 @@ export const updateProdQuantityService = async (cid, pid, quantity) =>{
       }
       return prod;
     } catch (error) {
+      loggerDev.error(error.message)
       throw new Error (error)
     }
 };

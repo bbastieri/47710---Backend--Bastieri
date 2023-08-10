@@ -1,4 +1,5 @@
 import { ProductsModel } from "./models/productsModel.js";
+import { loggerDev } from "../../utils/logger.js"
 
 export default class ProductDao {
 
@@ -12,6 +13,7 @@ export default class ProductDao {
                 return response
             }
         }catch (error) {
+            loggerDev.error(error.message)
             throw new Error(error)
         }
     };
@@ -21,6 +23,7 @@ export default class ProductDao {
             const response = await ProductsModel.findById(pid);
             return response;
         }catch (error) {
+            loggerDev.error(error.message)
             throw new Error(error)
         }
     };
@@ -30,6 +33,7 @@ export default class ProductDao {
             const response = await ProductsModel.create(obj);
             return response;
         }catch (error) {
+            loggerDev.error(error.message)
             throw new Error(error)
         }
     };
@@ -39,6 +43,7 @@ export default class ProductDao {
             await ProductsModel.updateOne({_id: pid, obj});
             return obj;
         }catch (error) {
+            loggerDev.error(error.message)
             throw new Error(error)
         }
     };
@@ -48,6 +53,7 @@ export default class ProductDao {
             const response = await ProductsModel.findByIdAndDelete(pid);
             return response;
         }catch (error) {
+            loggerDev.error(error.message)
             throw new Error(error)
         }
     };
@@ -59,7 +65,8 @@ export default class ProductDao {
             const response = await ProductsModel.find(query)
             return response
         }catch (error) {
+            loggerDev.error(error.message)
             throw new Error(error)
         }
     };
-}    
+};   

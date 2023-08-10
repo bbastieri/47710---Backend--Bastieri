@@ -1,4 +1,5 @@
 import UsersDao from "../dao/mongoDB/usersDao.js";
+import { loggerDev } from "../utils/logger.js";
 
 const usersDao = new UsersDao();
 
@@ -7,6 +8,7 @@ export const createUserService = async (userData) => {
         const newUser = await usersDao.createUser(userData);            
         return newUser
     } catch (error) {
+        loggerDev.error(error.message)
         throw new Error(error)
     }
 };
@@ -16,6 +18,7 @@ export const loginUserService = async (userData) => {
         const login = await usersDao.loginUser(userData);
         return login
     } catch (error) {
+        loggerDev.error(error.message)
         throw new Error(error)
     }
 };
@@ -25,6 +28,7 @@ export const getByIDService = async (id) => {
         const getByID = await usersDao.getUserByID(id);
         return getByID
     } catch (error) {
+        loggerDev.error(error.message)
         throw new Error(error)
     }
 };
@@ -34,6 +38,7 @@ export const getByEmailService = async (email) => {
         const getByEmail = await usersDao.getUserByEmail(email);
         return getByEmail
     } catch (error) {
+        loggerDev.error(error.message)
         throw new Error(error)
     }
 };
@@ -44,7 +49,8 @@ export const getUserDto = async (id) => {
       if(!data) return false
      return data
   } catch (error) {
-      throw new Error(error)           
+        loggerDev.error(error.message)
+        throw new Error(error)           
   }
 };
 

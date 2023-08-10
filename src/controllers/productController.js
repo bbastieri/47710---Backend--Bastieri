@@ -7,6 +7,7 @@ import {
     getByKeyService
 } from '../services/productServices.js';
 import HttpResponse from '../utils/httpResponse.js';
+import { loggerDev } from '../utils/logger.js';
 
 const httpResponse = new HttpResponse();
 
@@ -29,6 +30,7 @@ export const getAllController = async (req, res, next) => {
         }    
         res.json(productsFile); 
     } catch (error) {
+        loggerDev.error(error.message)
         return httpResponse.NotFound(res, error)
     }
 };
@@ -43,6 +45,7 @@ export const getByIDController = async (req, res, next) => {
             res.json(docs)
         };
     } catch (error) {
+        loggerDev.error(error.message)
         return httpResponse.NotFound(res, error)
     }
 };
@@ -74,6 +77,7 @@ export const addController = async (req, res, next) => {
             res.json(newDoc)
         };
     } catch (error) {
+        loggerDev.error(error.message)
         return httpResponse.ServerError(res, error)
     }
 };
@@ -102,6 +106,7 @@ export const updateController = async (req, res, next) => {
         });
         res.joson(prodUpdated);
     } catch (error) {
+        loggerDev.error(error.message)
         return httpResponse.ServerError(res, error)
     }
 };
@@ -112,6 +117,7 @@ export const deleteByIDController = async (req, res, next) => {
         const productDeleted = await deleteByIDService(pid);
         res.json(productDeleted)
     } catch (error) {
+        loggerDev.error(error.message)
         return httpResponse.ServerError(res, error)
     }
 };
@@ -124,6 +130,7 @@ export const getByKeyController = async (req, res, next) =>{
         if(!productByKey) throw new Error ("Product not found!")
         res.json(productSearched)
     } catch (error) {
+        loggerDev.error(error.message)
         return httpResponse.ServerError(res, error)
     };
 };

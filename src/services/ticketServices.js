@@ -1,9 +1,8 @@
 import TicketDao from "../dao/mongoDB/ticketDao.js";
-import ProductDao from "../dao/mongoDB/productDao.js";
 import CartDao from "../dao/mongoDB/cartDao.js";
+import { loggerDev } from "../utils/logger.js";
 
 const ticketDao = new TicketDao();
-const productDao = new ProductDao();
 const cartDao = new CartDao();
 
 let codeCounter = 1;
@@ -50,6 +49,7 @@ export default class TicketService {
                 return ({productsNotAvailable});
             }
         } catch (error) {
+            loggerDev.error(error.message)
             throw new Error(error) 
         }
     }
