@@ -6,7 +6,7 @@ import { loggerDev } from "../utils/logger.js";
 
 
 const userDao = new UserDao();
-const httpResponse = HttpResponse();
+const httpResponse = new HttpResponse();
 
 export const register = async (req, res, next) => {
     try {
@@ -80,4 +80,6 @@ export const getUserDtoController = async (req, res, next) => {
         loggerDev.error(error.message)
         return httpResponse.ServerError(res, error)
     }
-  }
+};
+
+  

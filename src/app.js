@@ -1,11 +1,11 @@
 import express from 'express';
-import { __dirname } from './utils.js';
+import { __dirname } from './utils/utils.js';
 import { errorHandler } from './middlewares/errorHandler.js';
 import './db/db.js';
 import handlebars from 'express-handlebars';
 import { Server } from 'socket.io';
 import cookieParser from 'cookie-parser';
-import Mongostore from 'connect-mongo';
+import MongoStore from 'connect-mongo';
 import session from 'express-session';
 import passport from 'passport';
 import productRouter from './routes/productRouter.js';
@@ -14,12 +14,11 @@ import viewsRouter from './routes/viewsRouter.js';
 import usersRouter from './routes/usersRouter.js';
 import productRouterFake from './routes/productRouterFake.js'
 import loggerRouterTest from './routes/loggerRouterTest.js'
-import config from './config.js';
-import { loggerDev, loggerProd } from './utils/logger.js';
+import config from './config.js'
+import { loggerDev } from './utils/logger.js';
 
 
 const app = express ();
-const port = config.port || 8080;
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
@@ -44,9 +43,23 @@ app.set('views', __dirname +'/views');
 
 /* MONGODB */
 
+/* app.use(session ({
+    secret: 'secretPass2',
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        maxAge: 6000
+    },
+    store: new MongoStore ({
+        mongoUrl: mongoAtlasURL,
+        ttl: 110
+    })
+})
+) */
+
 const storeOptions = {
-    store: new Mongostore ({
-        mongoUrl: config.mongoAtlasURL,
+    store: new MongoStore ({
+        mongoUrl: config.MONGO_ATLAS_URL,
         crypto: {
             secret: 'secretPass'
         },
@@ -60,17 +73,16 @@ const storeOptions = {
     cookie: {
         maxAge: 60000
     }
-}
+}; 
+
 app.use(session(storeOptions));
 
 /* PASSPORT */
 
 app.use(passport.initialize());
-app.use(passport.session())
+app.use(passport.session());
 
 /* PORT */
-
-const PORT = process.env.PORT
 
 const httpServer = app.listen(port, () => {
     loggerDev.info(`Server listening at http://localhost:${port}`);

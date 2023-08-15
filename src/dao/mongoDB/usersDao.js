@@ -1,8 +1,8 @@
 import { createHash } from "../../utils/utils.js";
 import { UserModel } from "./models/usersModel.js";
 import { CartModel } from "./models/cartModel.js";
-import { UserDTO } from "../../dto/user.dto.js"
-import { loggerDev, loogerDev } from "../../utils/logger.js"
+import UserDto  from "../../dto/user.dto.js"
+import { loggerDev } from "../../utils/logger.js"
 
 export default class UserDao {
 
@@ -77,7 +77,7 @@ export default class UserDao {
     async getUserByDTO (_id) {
       try {
         const userByDTO = await UserModel.findById(_id);
-        const userDTO = new UserDTO (userByDTO);
+        const userDTO = new UserDto (userByDTO);
         return userDTO
       } catch (error){
           loggerDev.error(error.message)

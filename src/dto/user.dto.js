@@ -1,4 +1,5 @@
-export default class UserDto{
+export default class UserDto {
+
     constructor(user){
         this.name = user.first_name
         this.lastname = user.lastname
@@ -7,4 +8,5 @@ export default class UserDto{
         this.cart = user.cart
         this.role = user.role
     }
+    
 };

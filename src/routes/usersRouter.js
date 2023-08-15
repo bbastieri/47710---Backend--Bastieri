@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import passport from 'passport';
-import { register, login, loginFront, privateRoute } from '../controllers/usersController.js';
+import { register, login, loginFront, privateRoute, getUserDtoController } from '../controllers/usersController.js';
 import { checkAuth } from '../jwt/auth.js';
 
 const router = Router();

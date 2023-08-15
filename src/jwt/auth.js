@@ -4,8 +4,6 @@ import config from "../config.js";
 
 const userDao = new UserDao();
 
-const privateKeyJWT = config.privateKeyJWT;
-
 export const generateToken = (user) => {
     const payload = {
         userID: user._id,
@@ -17,7 +15,7 @@ export const generateToken = (user) => {
         role: user.role    
     }
 
-    const token = jwt.sign(payload, privateKeyJWT, {
+    const token = jwt.sign(payload, config.privateKeyJWT, {
         expiresIn: '1h',
     });
     return token;
