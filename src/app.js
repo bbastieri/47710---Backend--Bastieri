@@ -16,9 +16,12 @@ import productRouterFake from './routes/productRouterFake.js'
 import loggerRouterTest from './routes/loggerRouterTest.js'
 import config from './config.js'
 import { loggerDev } from './utils/logger.js';
+import dotenv from 'dotenv';
 
+dotenv.config();
 
-const app = express ();
+const port = config.port || 8080;
+const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
@@ -43,23 +46,9 @@ app.set('views', __dirname +'/views');
 
 /* MONGODB */
 
-/* app.use(session ({
-    secret: 'secretPass2',
-    resave: false,
-    saveUninitialized: true,
-    cookie: {
-        maxAge: 6000
-    },
-    store: new MongoStore ({
-        mongoUrl: mongoAtlasURL,
-        ttl: 110
-    })
-})
-) */
-
 const storeOptions = {
     store: new MongoStore ({
-        mongoUrl: config.MONGO_ATLAS_URL,
+        mongoUrl: 'mongodb+srv://bbastieri:Galito01@cluster0.fnqi1b0.mongodb.net/ecommerce?retryWrites=true&w=majority',
         crypto: {
             secret: 'secretPass'
         },
