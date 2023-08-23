@@ -10,4 +10,6 @@ router.get('/login-error',(req,res)=>{res.render('loginError')});
 
 router.get('/register-error',(req,res)=>{res.render('registerError')});
 
+router.get('/updatePass', (req, res)=>{res.render(updatePass)});
+
 export default router

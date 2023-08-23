@@ -5,6 +5,7 @@ import config from "../config.js";
 const userDao = new UserDao();
 
 export const generateToken = (user) => {
+
     const payload = {
         userID: user._id,
         firstName: user.firstName,

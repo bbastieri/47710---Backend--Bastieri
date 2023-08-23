@@ -1,7 +1,7 @@
-import UsersDao from "../dao/mongoDB/usersDao.js";
+import UserDao from "../dao/mongoDB/usersDao.js";
 import { loggerDev } from "../utils/logger.js";
 
-const usersDao = new UsersDao();
+const usersDao = new UserDao();
 
 export const createUserService = async (userData) => {
     try {

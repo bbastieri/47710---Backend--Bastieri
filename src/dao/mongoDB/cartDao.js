@@ -1,6 +1,7 @@
 import { CartModel } from "./models/cartModel.js";
-import { UserModel } from "./models/usersModel.js"
-import { loggerDev } from "../../utils/logger.js"
+import { UserModel } from "./models/usersModel.js";
+import { ProductsModel } from "./models/productsModel.js";
+import { loggerDev } from "../../utils/logger.js";
 
 export default class CartDao {
 
@@ -35,12 +36,15 @@ export default class CartDao {
     };
 
 
-    async addToCart (cid, pid) {
+    async addToCart (cid, pid, uid) {
         try{
             const cartFinder = await CartModel.findById(cid);
+            const user = await UserModel.findById(uid);
+            const product = await ProductsModel.findById(pid);
+
             if(!cartFinder) throw new Error ('Cart not found!')
             const existingProduct = cartFinder.products.find(prod => prod._id === pid)
-            if (existingProduct){
+            if (existingProduct && user.model === 'premium' && product.owner === user.email){
                 const updtQuantity = existingProduct.quantity + 1
                 await CartModel.updateOne(
                     {_id: cid},

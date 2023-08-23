@@ -1,5 +1,6 @@
 import { ProductsModel } from "./models/productsModel.js";
-import { loggerDev } from "../../utils/logger.js"
+import { UserModel } from "./models/usersModel.js"
+import { loggerDev } from "../../utils/logger.js";
 
 export default class ProductDao {
 
@@ -28,10 +29,25 @@ export default class ProductDao {
         }
     };
 
-    async addProduct (obj) {
+    async addProduct ({title, description, price, code, category, stock, status, thumbnails, owner, userEmail}) {
         try{
-            const response = await ProductsModel.create(obj);
-            return response;
+            const user = await UserModel.findOne({email: userEmail});
+            if (user.role === 'premium' || user.role === 'admin'){
+                const response = await ProductsModel.create({
+                    title,
+                    description,
+                    price,
+                    code,
+                    category,
+                    stock,
+                    status,
+                    thumbnails,
+                    owner: user.email                        
+                })
+                return response;
+            } else {
+                throw new Error ({message: 'Cannot create product'})
+            }
         }catch (error) {
             loggerDev.error(error.message)
             throw new Error(error)

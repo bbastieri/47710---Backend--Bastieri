@@ -85,4 +85,23 @@ export default class UserDao {
       }
     };
 
+    async updateStatus (uid, role) {
+      try {
+        await UserModel.updateOne({_id: uid}, {role: role})
+        return role
+      } catch (error){
+        loggerDev.error(error.message)
+        throw new Error(error)
+      }
+    };
+
+    async updatePass (uid, password) {
+      try {
+        await UserModel.updateOne({_id: uid}, {password: password})
+        return password
+      } catch (error) {
+        loggerDev.error(error.message)
+        throw new Error(error)
+      }  
+    }
   };  

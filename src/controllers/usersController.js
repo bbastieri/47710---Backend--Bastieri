@@ -13,7 +13,7 @@ export const register = async (req, res, next) => {
       const { firstName, lastName, email, age, cart, password } = req.body;
       const existUser = await userDao.getUserByEmail(email);
       if (existUser) return res.status(400).json({ msg: 'user already exists' });
-      const userData = { firstName, lastName, email, age, password }
+      const userData = { firstName, lastName, email, age, cart, password }
       const newUser = await userDao.createUser(userData);
       const token = generateToken(newUser);
       res.json({
@@ -31,8 +31,8 @@ export const login = async (req, res, next) => {
       const { email, password } = req.body;
       const userData = await userDao.loginUser({ email, password });
       if (!userData) req.json({ msg: 'invalid credentials' });
-      const access_token = generateToken(userData);
-      res.header('authorization', access_token).json({ msg: 'Login OK', access_token })
+      const accessToken = generateToken(userData);
+      res.header('authorization', accessToken).json({ msg: 'Login OK', accessToken })
     } catch (error) {
       loggerDev.error(error.message)
       next(error);
@@ -59,11 +59,11 @@ export const loginFront = async (req, res, next) => {
       if (!userData) {
         return res. json({ msg: 'invalid credentials' });
       }
-      const access_token = generateToken(userData)
-      res.cookie('token', access_token,
+      const accessToken = generateToken(userData)
+      res.cookie('token', accessToken,
         { httpOnly: true } 
       )
-        res.json({ msg: 'Login OK', access_token })
+        res.json({ msg: 'Login OK', accessToken })
     } catch (error) {
       loggerDev.error(error.message)
       return httpResponse.ServerError(res, error)
