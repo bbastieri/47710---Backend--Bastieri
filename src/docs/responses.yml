@@ -1,0 +1,115 @@
+components:
+  schema:
+    Products:
+      Product:
+        type: object
+        properties:
+          title:
+            type: string
+            description: Product name
+          description:
+            type: string
+            description: Product description
+          price:
+            type: number
+            description: Product price
+          code:
+            type: string
+            description: Product code
+          status:
+            type: string
+            description: Product state 
+          stock:
+            type: number
+            description: Products available in stock
+          category:
+            type: string
+            description: Product category
+          thumbnails:
+            type: string
+            description: Links to products images list
+          owner:
+            type: string
+            description: Product owner
+        example:
+          title: Product 1 example
+          description: This is an example of a fake product details.
+          price: 99.99
+          code: PROD123
+          status: available
+          stock: 50
+          category: Tools
+          thumbnails: https://example.com/thumbnail1.jpg
+          owner: a123@mail.com
+      GetAllProducts:
+        type: array
+        items:
+          properties:
+            title:
+              type: string
+              description: Product name
+              example: T-shirt
+            description:
+              type: string
+              description: Product description
+              example: White
+            price:
+              type: number
+              description: Product price
+              example: 345
+            code:
+              type: string
+              description: Product code
+              example: "123"
+            status:
+              type: string
+              description: Product status
+              example: succes 
+            stock:
+              type: number
+              description: Products available in stock
+              example: 34
+            category:
+              type: string
+              description: Product category
+              example: ropa
+            thumbnails:
+              type: string
+              description: Links to products images list
+              example: https://example.com/thumbnail1.jpg
+            owner:
+              type: string
+              description: Product owner
+              example: d@mail.com
+      ValidationSchemaError:
+        type: object
+        properties:
+          message:
+            type: string
+            description: Validation schema error message
+        example:
+          message: "Product schema noy valid"
+      NotFound:
+        type: object
+        properties:
+          message:
+            type: string
+            description: Server error message
+          example:
+            message: Server error
+      ErrorGetById:
+        type: object
+        properties:
+          message:
+            type: string
+            description: Error message, product not found
+          example:
+            message: Cannot find product with ID XXXX
+      DeleteById:
+        type: object
+        properties:
+          message:
+            type: string
+            description: Success message, product deleted by ID
+        example:
+          message: "Product deleted successfully"

@@ -1,0 +1,67 @@
+components:
+  parameters:
+    schema:
+      Users:
+        type: object
+        required: 
+          - firstName
+          - lastName
+          - email
+          - age
+          - password
+          - cart
+          - role
+          - githubUser
+          - prodCreator
+        properties:
+          firstName:
+            type: string
+            description: User name
+          lastName:
+            type: string
+            description: User last name
+          email:
+            type: string
+            description: User email
+          age:
+            type: number
+            description: User age
+          password:
+            type: string
+            description: User pass
+          cart:
+            type: string
+            description: User cart
+          role:
+            type: string
+            description: User role
+          githubUser:
+            type: boolean
+            description: Github authenticated
+          prodCreator:
+            type: boolean
+            description: Can user create products
+        example:
+          first_name: "User name example"
+          last_name: "User last name example"
+          email: "a@gmail.com"
+          age: 23
+          password: "123"
+          cart: "sakdjhaskjdhkasda"
+          role: "user"
+          githubUser: false
+          prodCreator: false
+      Login:
+        type: object
+        required: 
+          - email
+          - password
+        properties:
+          email:
+            type: string
+            description: Email user
+            example:a123@mail.com"
+          password:
+            type: string
+            description: User password
+            example: "123"

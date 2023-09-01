@@ -29,7 +29,7 @@ export default class ProductDao {
         }
     };
 
-    async addProduct ({title, description, price, code, category, stock, status, thumbnails, owner, userEmail}) {
+    async addProduct ({title, description, price, code, category, stock, status, thumbnails, userEmail}) {
         try{
             const user = await UserModel.findOne({email: userEmail});
             if (user.role === 'premium' || user.role === 'admin'){

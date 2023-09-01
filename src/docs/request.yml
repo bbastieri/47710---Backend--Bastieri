@@ -1,0 +1,54 @@
+components:
+  parameters:
+    schemas:
+      BodyProduct:
+        type: object
+        required: 
+          - title
+          - description
+          - price
+          - code
+          - status
+          - stock
+          - category
+          - thumbnails
+          - owner
+        properties:
+          title:
+            type: string
+            description: Product name
+          description:
+            type: string
+            description: Product description
+          price:
+            type: number
+            description: Product price
+          code:
+            type: string
+            description: Product code
+          status:
+            type: string
+            description: Product status
+          stock:
+            type: number
+            description: Products available in stock
+          category:
+            type: string
+            description: Product category
+          thumbnails:
+            type: string
+            description: Links to products images list
+          owner:
+            type: string
+            description: Product owner
+        example:
+          title: "Product Example"
+          description: "This is an example of a fake product details."
+          code: "PROD123"
+          price: 99.99
+          status: "available"
+          stock: 50
+          category: "Tools"
+          thumbnails: "https://example.com/thumbnail1.jpg"
+          owner: "a123@mail.com"
+        

@@ -1,0 +1,188 @@
+paths:
+  /products:
+    post:
+      tags: 
+      - Products
+      summary: New product in data base register
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/parameters/schemas/BodyProduct'
+        required: true
+      responses:
+        200:
+          description: Product registered OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schema/Products/Product'
+        404:
+          description: Schema Validation error
+          $ref: '#/components/schema/ValidationSchemaError'
+        500:
+          description: Error de servidor
+          $ref: '#/components/schema/NotFound'
+    get:
+      tags:
+      - Products
+      summary: Product list in data base
+      responses:
+        200:
+          description: Product list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schema/Products/GetAllProducts'
+        500:
+          description: Server error
+          $ref: '#/components/schema/NotFound'
+
+  /products/{id}:
+    get:
+      tags:
+      - Products
+      summary: Get product details by  ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: Product ID
+          schema:
+            type: string
+      responses:
+        200:
+          description: Product found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schema/Product'
+        404:
+          description: Product not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schema/NotFound'
+    put:
+      tags:
+      - Products
+      summary: Edit product
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID of product to be edited
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schema/BodyProduct'
+        required: true
+      responses:
+        200:
+          description: Product updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schema/Product'
+        404:
+          description: Cannot find product with ID {id}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schema/NotFound'
+    delete:
+      tags:
+      - Products
+      summary: Delete product by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID of product to be deleted
+          schema:
+            type: string
+      responses:
+        200:
+          description: Product deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schema/DeleteById'
+        404:
+          description: Cannot find product with ID {id}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schema/NotFound'
+
+  /users/register:
+    post:
+      tags: 
+      - Users
+      summary: New user registered in data base
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/parameters/schema/Users'
+        required: true
+      responses:
+        200:
+          description: New user registered OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schema/Users/User'
+        404:
+          description: Schema validation error
+          $ref: '#/components/schema/Users/ValidationSchemaError'
+        500:
+          description: Server error
+          $ref: '#/components/schema/Users/NotFound'
+  /users/dto/{id}:
+    get:
+      tags:
+      - Users
+      summary: Get user DTO by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: User ID
+          schema:
+            type: string
+      responses:
+        200:
+          description: User DTO OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schema/Users/UserDto'
+
+  /users/login:     
+    post:
+      tags: 
+      - Users
+      summary: User login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/parameters/schema/Login'
+        required: true
+      responses:
+        200:
+          description: User logged
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schema/Users/Login'
+        404:
+          description: Schema validation error
+          $ref: '#/components/schema/Users/ValidationSchemaError'
+        500:
+          description: Server error
+          $ref: '#/components/schema/Users/NotFound'
