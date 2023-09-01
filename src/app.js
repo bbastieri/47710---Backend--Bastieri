@@ -17,6 +17,9 @@ import loggerRouterTest from './routes/loggerRouterTest.js'
 import config from './config.js'
 import { loggerDev } from './utils/logger.js';
 import dotenv from 'dotenv';
+import swaggerUI from 'swagger-ui-express';
+import swaggerJSDoc from 'swagger-jsdoc';
+import { info } from './docs/info.js';
 
 dotenv.config();
 
@@ -35,8 +38,13 @@ app.use('/products', productRouter);
 app.use('/cart', cartRouter);
 app.use('/users', usersRouter);
 app.use('/', viewsRouter);
-app.use('/productsMock', productRouterFake)
-app.use('/loggerTest', loggerRouterTest)
+app.use('/productsMock', productRouterFake);
+app.use('/loggerTest', loggerRouterTest);
+
+/* SWAGGER */
+
+const specs = swaggerJSDoc(info);
+app.use('/docs', swaggerUI.serve, swaggerUI.setup(specs));
 
 /* HANDLEBARS */
 
