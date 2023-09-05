@@ -121,3 +121,5 @@ socketServer.on('connection',  async (socket) =>{
         socket.broadcast.emit("chat:typing", data);
     });    
 });
+
+export default app;

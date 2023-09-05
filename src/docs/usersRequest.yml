@@ -60,7 +60,7 @@ components:
           email:
             type: string
             description: Email user
-            example:a@mail.com"
+            example:a123@mail.com"
           password:
             type: string
             description: User password
