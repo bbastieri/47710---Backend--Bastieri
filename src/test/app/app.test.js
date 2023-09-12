@@ -132,6 +132,11 @@ describe('Sessions integral test', () => {
             age: 2123,
             role: "admin"
     };
+
+    const userCredentials = {
+        email: "mnb@mail.com",
+        password: "123"
+    }
         
     
     test('[POST] /users/register', async () => {
@@ -142,6 +147,17 @@ describe('Sessions integral test', () => {
         expect(typeof response.body).toBe('object');
         expect(statusCode).not.toBe(404)
        
+    });
+
+    test('[GET] /users/login', async () => {
+        const responsePost = await request(app).post('/users/login').send(userCredentials)
+     
+        const statusCode = responsePost.statusCode;
+      
+        expect(statusCode).toEqual(200);
+        expect(typeof responsePost.body).toBe('object');
+        expect(statusCode).not.toBe(404)
+        
     });
 });
 
