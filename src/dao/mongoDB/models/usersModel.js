@@ -9,7 +9,9 @@ const UserSchema = new mongoose.Schema({
     cart: [{ type: mongoose.Schema.Types.ObjectId, ref: 'carts', default: [] }],
     role: { type:String, default:'user' },
     githubUser: { type: Boolean, required:true, default:false },
-    prodCreator: { type: Boolean, default: false }
+    prodCreator: { type: Boolean, default: false },
+    documents: [{ name: { type: String }, reference: { type: String } }],
+    lastConnection: { type: Date }
 });
 
 UserSchema.pre('find', function(){

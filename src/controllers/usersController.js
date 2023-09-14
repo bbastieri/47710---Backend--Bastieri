@@ -3,11 +3,36 @@ import { generateToken } from "../jwt/auth.js";
 import UserDao from "../dao/mongoDB/usersDao.js";
 import HttpResponse from '../utils/httpResponse.js'
 import { loggerDev } from "../utils/logger.js";
-
-
+import multer from "multer";
+import { __dirname } from "../utils/utils.js";
 
 const userDao = new UserDao();
 const httpResponse = new HttpResponse();
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    let uploadDir;
+
+    if (file.fieldname === 'profileImage') {
+      uploadDir = __dirname + '/public/profiles';
+    } else if (file.fieldname === 'productImage') {
+      uploadDir = __dirname + '/public/products';
+    } else if (file.fieldname === 'documentFile') {
+      uploadDir = __dirname + '/public/documents';
+    } else {
+      uploadDir = __dirname + '/public/unknown';
+    }
+
+    cb(null, uploadDir);
+  },
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    cb(null, file.fieldname + '-' + uniqueSuffix);
+  },
+});
+
+export const multerField = multer({ storage });
+
 
 export const register = async (req, res, next) => {
     try {
@@ -32,8 +57,10 @@ export const login = async (req, res, next) => {
       const { email, password } = req.body;
       const userData = await userDao.loginUser({ email, password });
       if (!userData) req.json({ msg: 'invalid credentials' });
+      const lastConnection = user.last_connection = new Date();
+      user.save();
       const accessToken = generateToken(userData);
-      res.header('authorization', accessToken).json({ msg: 'Login OK', accessToken })
+      res.header('authorization', accessToken).json({ msg: 'Login OK', accessToken, lastConnection })
     } catch (error) {
       loggerDev.error(error.message)
       next(error);
