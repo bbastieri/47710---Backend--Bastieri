@@ -44,7 +44,7 @@ components:
         example:
           first_name: "User name example"
           last_name: "User last name example"
-          email: "a@gmail.com"
+          email: "a123@mail.com"
           age: 23
           password: "123"
           cart: "sakdjhaskjdhkasda"
@@ -60,7 +60,7 @@ components:
           email:
             type: string
             description: Email user
-            example:a123@mail.com"
+            example: "a123@mail.com"
           password:
             type: string
             description: User password

@@ -1,6 +1,7 @@
 import passport from "passport";
 import { ExtractJwt, Strategy as jwtStrategy } from 'passport-jwt';
 import UserDao from '../daos/mongo/user.dao.js';
+
 const userDao = new UserDao();
 
 const strategyOptions = {
@@ -18,12 +19,12 @@ const strategyOptionsCookies = {
     secretOrKey: '1234'
 };
 
-const verifyToken = async (jwt_payload, done) => {
-    const userData = await userDao.getById(jwt_payload.userID);
+const verifyToken = async (jwtPayload, done) => {
+    const userData = await userDao.getById(jwtPayload.userID);
     console.log(userData);
     if(!userData) return done(null, false)
-    return done(null, jwt_payload)
-}
+    return done(null, jwtPayload)
+};
 
 passport.use('current', new jwtStrategy(strategyOptions, verifyToken));
 passport.use('jwtCookies', new jwtStrategy(strategyOptionsCookies, verifyToken));
@@ -36,4 +37,4 @@ passport.serializeUser((userData, done)=>{
 passport.deserializeUser(async(id, done)=>{
     const user = await userDao.getById(id);
     return done(null, user);
-})
+});

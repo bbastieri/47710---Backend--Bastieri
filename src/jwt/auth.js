@@ -3,9 +3,9 @@ import UserDao from "../dao/mongoDB/usersDao.js";
 import config from "../config.js";
 
 const userDao = new UserDao();
+const privateKeyJWT = config.privateKeyJWT;
 
 export const generateToken = (user) => {
-
     const payload = {
         userID: user._id,
         firstName: user.firstName,
@@ -14,9 +14,9 @@ export const generateToken = (user) => {
         age: user.age,
         cart: user.cart,
         role: user.role    
-    }
+    };
 
-    const token = jwt.sign(payload, config.privateKeyJWT, {
+    const token = jwt.sign(payload, privateKeyJWT, {
         expiresIn: '1h',
     });
     return token;

@@ -12,7 +12,7 @@ router.get('/register-github', passport.authenticate('github', {scope: ['user:em
 router.post('/loginfront', loginFront);
 router.post('/register', register);
 router.post('/login', login);
-router.post('/:uid/documents', uploader.single('documentFile'), async (req, res) => {
+router.post('/:uid/documents', multerField.single('documentFile'), async (req, res) => {
     try {
       const { uid } = req.params;
       const { file } = req;
