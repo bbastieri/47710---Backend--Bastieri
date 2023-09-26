@@ -110,4 +110,11 @@ export const getUserDtoController = async (req, res, next) => {
     }
 };
 
-  
+export const deleteIanctiveUsers = async (req, res, next) => {
+  try {
+    await deleteIanctiveUsers();
+    res.status(200).json({ message: 'Delete completed' });
+  } catch (error) {
+    loggerDev.error(error.message)
+  }
+}  

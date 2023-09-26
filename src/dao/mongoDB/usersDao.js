@@ -120,5 +120,17 @@ export default class UserDao {
         loggerDev.error(error.message)
         throw new Error(error)
       }  
+    };
+
+    async getAllUsersDto() {
+      try {
+        const user = await UserModel.find()
+  
+        const userDTO = user.map(user => new AllUsersDto(user));
+        return userDTO
+      } catch (error) {
+        loggerDev.error(error.message)
+        throw new Error(error)
+      }
     }
   };  

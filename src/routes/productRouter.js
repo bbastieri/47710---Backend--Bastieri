@@ -16,7 +16,7 @@ router.get('/', getAllController);
 router.get('/:pid',  getByIDController);
 router.post('/', checkAuth, isPremium, addController);
 router.put('/:pid', checkAuth, isAdmin, updateController);
-router.delete('/:pid', checkAuth, isAdmin, deleteByIDController);
+router.delete('/:pid', checkAuth, isPremium, deleteByIDController);
 router.get('/search/:key/:value', getByKeyController)
 
 export default router;

@@ -16,9 +16,9 @@ export const sendEmail = async (req, res) => {
 
 export const updatePass = async (req, res) => {
     const email = req.body.email;
-    const { currentPassword, newPassword, confirmNewPassword } = req.body;
-    if (newPassword !== confirmNewPassword) {
-        return res.send('New and current pass do not match')
+    const { currentPass, newPass, confirmNewPass } = req.body;
+    if (newPass !== confirmNewPass) {
+        return res.send('New and confirmation pass do not match')
     }
     try {
         const user = await userDao.getUserByEmail(email)
@@ -26,11 +26,11 @@ export const updatePass = async (req, res) => {
             return res.status(404).send('User not found')
         }
 
-        if(!validPassword(currentPassword, user)) {
+        if(!validPassword(currentPass, user)) {
             return res.send('Incorrect current password')
         }
 
-        const newPassHash = createHash(newPassword);
+        const newPassHash = createHash(newPass);
         await userDao.updatePass(user._id, newPassHash)
         res.send('Password updated successfully')
 
