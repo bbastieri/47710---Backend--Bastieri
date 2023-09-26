@@ -37,10 +37,10 @@ export const createCartService = async () =>{
     }
 };
  
-export const addToCartService = async (cid, pid) =>{
+export const addToCartService = async (cid, pid, uid) =>{
     try {
-        const documentAdded = await cartDao.addToCart(cid, pid);
-        return documentAdded;
+        const docAdded = await cartDao.addToCart(cid, pid, uid);
+        return docAdded;
     } catch (error) {
       loggerDev.error(error.message)
         throw new Error (error)

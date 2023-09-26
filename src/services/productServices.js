@@ -1,7 +1,12 @@
 import ProductDao from "../dao/mongoDB/productDao.js";
+import UserDao from "../dao/mongoDB/usersDao.js";
 import { loggerDev } from "../utils/logger.js";
+import config from "../config.js";
+import { transporter } from "./emailServices.js";
+
 
 const prodDao = new ProductDao();
+const userDao = new UserDao();
 
 export const getAllService = async (page, limit, category) => {
     try {
@@ -70,3 +75,17 @@ export const getByKeyService = async (key, value) => {
     }
 };
 
+export const premiumEmail = async(user) => {
+    try {
+        const mailOptions = {
+            from: config.emailEthereal, 
+            to: user.email, 
+            subject: 'Product deleted',
+            text: `Hello ${user.firstName},\n\nYour product was deleted.`, 
+        };
+        await transporter.sendMail(mailOptions);
+    } catch (error) {
+        console.error('Cannot send email:', error);
+        throw new Error(error);
+    }
+  }
