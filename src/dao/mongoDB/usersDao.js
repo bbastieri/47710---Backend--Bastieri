@@ -1,8 +1,9 @@
-import { createHash } from "../../utils/utils.js";
+import { createHash, validPassword } from "../../utils/utils.js";
 import { UserModel } from "./models/usersModel.js";
 import { CartModel } from "./models/cartModel.js";
-import UserDto  from "../../dto/user.dto.js"
-import { loggerDev } from "../../utils/logger.js"
+import UserDto  from "../../dto/user.dto.js";
+import AllUsersDto from"../../dto/allUsers.dto.js";
+import { loggerDev } from "../../utils/logger.js";
 
 export default class UserDao {
 
@@ -35,10 +36,15 @@ export default class UserDao {
       try {
         const { email, password } = userData;
         const findUser = await UserModel.findOne({email: email, password: password});
-        if (!findUser) {
-            return null;
-        } else {
-            return findUser;
+
+        if (findUser) {
+            const validUser = validPassword(password, findUser);
+            if (!validUser) return false;
+
+            findUser.lastConnection = new Date();
+            await findUser.save();
+
+            return findUser
         }
       } catch (error) {
         loggerDev.error(error.message)
@@ -85,9 +91,20 @@ export default class UserDao {
       }
     };
 
+    async getAllUsersDto() {
+      try {
+        const user = await UserModel.find()
+        const userDTO = user.map(user => new AllUsersDto(user));
+        return userDTO
+      } catch (error) {
+        loggerDev.error(error.message)
+        throw new Error(error)
+      }
+    };
+
     async updateStatus (uid, role) {
       try {
-        await UserModel.updateOne({_id: uid}, {role: role})
+        await UserModel.updateOne({ _id: uid }, { role: role })
         return role
       } catch (error){
         loggerDev.error(error.message)
@@ -97,7 +114,7 @@ export default class UserDao {
 
     async updatePass (uid, password) {
       try {
-        await UserModel.updateOne({_id: uid}, {password: password})
+        await UserModel.updateOne({ _id: uid }, { password: password })
         return password
       } catch (error) {
         loggerDev.error(error.message)

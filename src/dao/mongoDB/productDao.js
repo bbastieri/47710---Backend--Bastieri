@@ -46,7 +46,7 @@ export default class ProductDao {
                 })
                 return response;
             } else {
-                throw new Error ({message: 'Cannot create product'})
+                throw new Error ({message: 'Cannot create product if not admin or premium'})
             }
         }catch (error) {
             loggerDev.error(error.message)

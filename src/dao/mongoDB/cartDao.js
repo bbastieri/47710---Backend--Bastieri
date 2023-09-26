@@ -36,16 +36,16 @@ export default class CartDao {
     };
 
 
-    async addToCart (cid, pid, uid) {
+    async addToCart (cid, pid, uid, quantity = 1) {
         try{
-            const cartFinder = await CartModel.findById(cid);
+            const cart = await CartModel.findById(cid);
             const user = await UserModel.findById(uid);
             const product = await ProductsModel.findById(pid);
 
-            if(!cartFinder) throw new Error ('Cart not found!')
-            const existingProduct = cartFinder.products.find(prod => prod._id === pid)
+            if(!cart) throw new Error ('Cart not found!')
+            const existingProduct = cart.products.find(prod => prod._id === pid)
             if (existingProduct && user.model === 'premium' && product.owner === user.email){
-                const updtQuantity = existingProduct.quantity + 1
+                const updtQuantity = existingProduct.quantity += quantity;
                 await CartModel.updateOne(
                     {_id: cid},
                     {$set: {'products.$.quantity': updtQuantity}}
