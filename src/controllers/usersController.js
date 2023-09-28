@@ -4,7 +4,7 @@ import UserDao from "../dao/mongoDB/usersDao.js";
 import HttpResponse from '../utils/httpResponse.js'
 import { loggerDev } from "../utils/logger.js";
 import multer from "multer";
-import { __dirname } from "../utils/utils.js";
+import { __dirname } from "../path.js";
 
 const userDao = new UserDao();
 const httpResponse = new HttpResponse();
@@ -56,7 +56,7 @@ export const login = async (req, res, next) => {
     try {
       const { email, password } = req.body;
       const userData = await userDao.loginUser({ email, password });
-      if (!userData) req.json({ msg: 'invalid credentials' });
+      if (!userData) res.json({ msg: 'invalid credentials' });
       const lastConnection = user.last_connection = new Date();
       user.save();
       const accessToken = generateToken(userData);

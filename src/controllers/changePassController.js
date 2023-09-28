@@ -1,6 +1,6 @@
 import { transporter, emailOptions } from '../services/emailServices.js';
-import { validPassword } from '../utils/utils.js';
-import { createHash } from '../utils/utils.js';
+import { validPassword } from '../path.js';
+import { createHash } from '../path.js';
 import UserDao from '../dao/mongoDB/usersDao.js';
 
 const userDao = new UserDao();

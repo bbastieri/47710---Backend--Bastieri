@@ -1,5 +1,6 @@
 import express from 'express';
-import { __dirname } from './utils/utils.js';
+import path from 'path';
+import { __dirname } from './path.js';
 import { errorHandler } from './middlewares/errorHandler.js';
 import './db/db.js';
 import handlebars from 'express-handlebars';
@@ -50,7 +51,7 @@ app.use('/docs', swaggerUI.serve, swaggerUI.setup(specs));
 
 app.engine('handlebars', handlebars.engine());
 app.set('view engine', 'handlebars');
-app.set('views', __dirname +'/views');
+app.set('views', path.join(__dirname, 'views'));
 
 /* MONGODB */
 

@@ -1,0 +1,3 @@
+{"level":"info","message":"Info lvl test message (production)"}
+{"level":"warn","message":"Warn lvl test message (production)"}
+{"level":"error","message":"Error lvl test message (production)"}

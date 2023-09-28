@@ -1,4 +1,4 @@
-import { createHash, validPassword } from "../../utils/utils.js";
+import { createHash, validPassword } from "../../path.js";
 import { UserModel } from "./models/usersModel.js";
 import { CartModel } from "./models/cartModel.js";
 import UserDto  from "../../dto/user.dto.js";
@@ -9,7 +9,7 @@ export default class UserDao {
 
     async createUser (userData) {
       try {
-        const { email, password } = userData;
+        const { firstName, lastName, email, age, password } = userData;
         const existUser = await UserModel.find({email});
         if (existUser.length === 0) {
             if (email === 'adminCoder@coder.com' && password === 'adminCoder123'){
