@@ -1,6 +1,6 @@
 import UserDao from "../dao/mongoDB/usersDao.js";
 import { loggerDev } from "../utils/logger.js";
-import { transporter } from "./emailServices.js";
+import { transporter, deactivationEmail } from "./emailServices.js";
 import { UserModel } from "../dao/mongoDB/models/usersModel.js";
 
 const usersDao = new UserDao();
@@ -45,9 +45,9 @@ export const getByEmailService = async (email) => {
     }
 };
 
-export const getUserDto = async (id) => {
+export const getByDTOService = async (id) => {
     try {
-      const data = await usersDaoMongo.getByIdDTO(id);
+      const data = await usersDao.getUserByDTO(id);
       if(!data) return false
      return data
   } catch (error) {
@@ -56,36 +56,62 @@ export const getUserDto = async (id) => {
   }
 };
 
-export const sendNotification = async(usuario) => {
+export const allUsersDTOService = async () => {
     try {
-        const emailOptions = {
-            from: config.emailEthereal,
-            to: usuario.email, 
-            subject: 'Inactivity notification',
-            text: `Hi ${usuario.first_name},\n\nYour account has been inactive for a while. Please notice that it will be deleted ver soon`, 
-        };
-  
-        await transporter.sendMail(emailOptions);
+      const data = await usersDao.getAllUsersDTO();
+      if(!data) return false
+      return data
+  } catch (error) {
+        loggerDev.error(error.message)
+        throw new Error(error)
+  }
+};
+
+export const updateStatusService = async (uid, role) => {
+    try {
+        const user = await usersDao.getUserByID(uid);
+        if(!user) {
+            throw new Error('User not found')
+        }
+
+        if(role === 'premium'){
+            user.prodCreator = true;
+            await user.save()
+        }
+
+        const updatedRole = await usersDao.updateStatus(uid, role);
+        return updatedRole
+        
     } catch (error) {
-        console.error('Error sending notification:', error);
-        throw new Error(error);
+        loggerDev.error(error.message);
+        throw error
     }
 };
 
-export const deleteInactiveUsers = async () => {
+export const updatePassService = async (email) => {
+    try { 
+        const updatePass = await usersDao.updatePass(email);
+        return updatePass
+    } catch (error) {
+        loggerDev.error(error.message)
+        throw new Error(error)
+    }
+}
+
+export const deleteInactiveUsersService = async () => {
     try {
         const inactiveTime = new Date();
         inactiveTime.setDate(inactiveTime.getDate() - 2);
-  
+        
         const inactiveUser = await UserModel.find({
             lastConection: { $lt: inactiveTime },
         });
-  
+        
         for (const user of inactiveUser) {
-    
-            await this.sendNotification(user);
-  
-            await usuario.remove();
+            
+            await this.sendNotificationService(user);
+            
+            await user.remove();
         }
     } catch (error) {
         loggerDev.error('Error deleting inactive users:', error);
@@ -93,3 +119,12 @@ export const deleteInactiveUsers = async () => {
     }
 };
 
+export const sendNotificationService = async(user) => {
+    try {
+        const emailOptions = await deactivationEmail(user);
+        await transporter.sendMail(emailOptions);
+    } catch (error) {
+        console.error('Error sending notification:', error);
+        throw new Error(error);
+    }
+};
