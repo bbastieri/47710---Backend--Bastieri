@@ -15,6 +15,16 @@ export const getAllCartsService = async () => {
     }
 };
 
+export const createCartService = async () =>{
+    try {
+        const newCart = await cartDao.createCart();
+        return newCart;
+    } catch (error) {
+        loggerDev.error(error.message)
+        throw new Error (error)
+    }
+};
+
 export const getCartByIdService = async (cid) => {
     try {
       const documentByID = await cartDao.getCartByID(cid);
@@ -27,15 +37,6 @@ export const getCartByIdService = async (cid) => {
     }
 };  
 
-export const createCartService = async () =>{
-    try {
-        const newCart = await cartDao.createCart();
-        return newCart;
-    } catch (error) {
-        loggerDev.error(error.message)
-        throw new Error (error)
-    }
-};
  
 export const addToCartService = async (cid, pid, uid) =>{
     try {
@@ -73,5 +74,16 @@ export const updateProdQuantityService = async (cid, pid, quantity) =>{
     }
 };
 
+export const getCartByUserService = async (uid) => {
+  try {
+    const documentByID = await cartDao.getCartByUser(cid);
+    if (!documentByID)
+      return 'The cart does not exist!';
+    else return doc;
+  } catch (error) {
+      loggerDev.error(error.message)
+      throw new Error (error)
+  }
+};
 
 

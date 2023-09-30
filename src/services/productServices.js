@@ -75,17 +75,3 @@ export const getByKeyService = async (key, value) => {
     }
 };
 
-export const premiumEmail = async(user) => {
-    try {
-        const mailOptions = {
-            from: config.emailEthereal, 
-            to: user.email, 
-            subject: 'Product deleted',
-            text: `Hello ${user.firstName},\n\nYour product was deleted.`, 
-        };
-        await transporter.sendMail(mailOptions);
-    } catch (error) {
-        console.error('Cannot send email:', error);
-        throw new Error(error);
-    }
-  }
