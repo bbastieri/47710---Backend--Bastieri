@@ -4,7 +4,8 @@ import {
     createCartService,
     addToCartService,
     deleteFromCartService,
-    updateProdQuantityService
+    updateProdQuantityService,
+    getCartByUserService
 } from '../services/cartServices.js'
 import HttpResponse from '../utils/httpResponse.js';
 import { loggerDev } from '../utils/logger.js';
@@ -21,6 +22,16 @@ export const getAllController = async (req, res, next) => {
     }
 };
 
+export const createCartController = async (req, res, next) => {
+    try {
+        const docs = await createCartService();
+        res.json(docs)
+    } catch (error) {
+        loggerDev.error(error.message)
+        return httpResponse.ServerError(res, error)
+    }
+};
+
 export const getByIDController = async (req, res, next) => {
     try {
         const { cid } = req.params;
@@ -29,16 +40,6 @@ export const getByIDController = async (req, res, next) => {
     } catch (error) {
         loggerDev.error(error.message)
         return httpResponse.NotFound(res, error)
-    }
-};
-
-export const createCartController = async (req, res, next) => {
-    try {
-        const docs = await createCartService();
-        res.json(docs)
-    } catch (error) {
-        loggerDev.error(error.message)
-        return httpResponse.ServerError(res, error)
     }
 };
 
@@ -76,3 +77,15 @@ export const updateProdQuantityController = async (req, res, next) => {
         return httpResponse.ServerError(res, error)
     }
 };
+
+export const getByUserController = async (req, res, next) => {
+    try {
+        const { cid } = req.params;
+        const docs = await getCartByUserService((uid));
+        res.json(docs)
+    } catch (error) {
+        loggerDev.error(error.message)
+        return httpResponse.NotFound(res, error)
+    }
+};
+

@@ -5,7 +5,7 @@ import UserDto  from "../../dto/user.dto.js";
 import AllUsersDto from"../../dto/allUsers.dto.js";
 import { loggerDev } from "../../utils/logger.js";
 
-export default class UserDao {
+export default class UsersDao {
 
     async createUser (userData) {
       try {
@@ -91,7 +91,7 @@ export default class UserDao {
       }
     };
 
-    async getAllUsersDto() {
+    async getAllUsersDTO() {
       try {
         const user = await UserModel.find()
         const userDTO = user.map(user => new AllUsersDto(user));
@@ -121,16 +121,5 @@ export default class UserDao {
         throw new Error(error)
       }  
     };
-
-    async getAllUsersDto() {
-      try {
-        const user = await UserModel.find()
-  
-        const userDTO = user.map(user => new AllUsersDto(user));
-        return userDTO
-      } catch (error) {
-        loggerDev.error(error.message)
-        throw new Error(error)
-      }
-    }
-  };  
+  }
+   

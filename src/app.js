@@ -22,9 +22,9 @@ import swaggerUI from 'swagger-ui-express';
 import swaggerJSDoc from 'swagger-jsdoc';
 import { info } from './docs/info.js';
 
-dotenv.config();
-
-const port = config.port || 8080;
+/* dotenv.config(); */
+/* const port = config.port || 3000; */
+const port = 3000;
 const app = express();
 
 app.use(express.json());
@@ -84,7 +84,7 @@ app.use(passport.session());
 
 const httpServer = app.listen(port, () => {
     loggerDev.info(`Server listening at http://localhost:${port}`);
-  });
+});
 
 
 /* WEBSOCKET */

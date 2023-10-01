@@ -5,7 +5,8 @@ import {
     createCartController,
     addToCartController,
     deleteFromCartController,
-    updateProdQuantityController
+    updateProdQuantityController,
+    getByUserController
 } from '../controllers/cartController.js'
 import { isUser } from '../middlewares/authorization.js'
 import { checkAuth } from '../jwt/auth.js'
@@ -17,8 +18,9 @@ router.get('/', getAllController);
 router.get('/:id', getByIDController);
 router.post('/', createCartController);
 router.put('/:cid/product/:pid', checkAuth, addToCartController);
-router.delete('/:cid/products/:pid', deleteFromCartController);
+router.delete('/:cid/products/:pid', isUser, deleteFromCartController);
 router.put('/:cid/quantity/:pid', updateProdQuantityController);
-/* router.post("/:cid/purchase" , TicketController.generateTicket) */
+router.post("/:cid/purchase" , TicketController)
+router.get('/:uid', getByUserController)
 
 export default router;
