@@ -24,8 +24,10 @@ import { info } from './docs/info.js';
 
 /* dotenv.config(); */
 /* const port = config.port || 3000; */
-const port = 3000;
+const port = '0.0.0.0';
 const app = express();
+
+
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));

@@ -1,0 +1,11 @@
+{
+    "services": {
+      "web": {
+        "name": "web",
+        "type": "nodejs",
+        "buildCommand": "npm install && npm run build",
+        "startCommand": "npm start"
+      }
+    }
+}
+

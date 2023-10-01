@@ -12,7 +12,6 @@ export const generateToken = (user) => {
         lastName: user.lastName,
         email: user.email,
         age: user.age,
-        cart: user.cart,
         role: user.role    
     };
 

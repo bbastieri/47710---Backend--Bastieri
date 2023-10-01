@@ -20,7 +20,7 @@ const httpResponse = new HttpResponse();
 export const createUserController = async (req, res, next) => {
     try {
       const { firstName, lastName, email, age, cart, password } = req.body;
-      const existUser = await userDao.getUserByEmail(email);
+      const existUser = await getByEmailService(email);
       if (existUser) return res.status(400).json({ msg: 'user already exists' });
       const userData = { firstName, lastName, email, age, cart, password }
       const newUser = await userDao.createUser(userData);
@@ -40,7 +40,7 @@ export const loginUserController = async (req, res, next) => {
     const { email, password } = req.body;
     const userData = await loginUserService({ email, password });
     if (!userData) res.json({ msg: 'invalid credentials' });
-    const lastConnection = user.last_connection = new Date();
+    const lastConnection = user.lastConnection = new Date();
     user.save();
     const accessToken = generateToken(userData);
     res.header('authorization', accessToken).json({ msg: 'Login OK', accessToken, lastConnection })

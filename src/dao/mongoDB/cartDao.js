@@ -44,7 +44,7 @@ export default class CartDao {
 
             if(!cart) throw new Error ('Cart not found!')
             const existingProduct = cart.products.find(prod => prod._id === pid)
-            if (existingProduct && user.model === 'premium' && product.owner === user.email){
+            if (existingProduct && user.role === 'premium' && product.owner === user.email){
                 const updtQuantity = existingProduct.quantity += quantity;
                 await CartModel.updateOne(
                     {_id: cid},

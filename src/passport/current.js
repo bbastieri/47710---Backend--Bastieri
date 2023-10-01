@@ -6,7 +6,7 @@ const userDao = new UserDao();
 
 const strategyOptions = {
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-    secretOrKey: '1234'
+    secretOrKey: '123456'
 };
 
 const cookieExtractor = (req) => {
@@ -16,7 +16,7 @@ const cookieExtractor = (req) => {
 
 const strategyOptionsCookies = {
     jwtFromRequest: ExtractJwt.fromExtractors([cookieExtractor]),
-    secretOrKey: '1234'
+    secretOrKey: '123456'
 };
 
 const verifyToken = async (jwtPayload, done) => {
