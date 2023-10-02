@@ -8,7 +8,8 @@ import { createUserController,
          allUsersDTOController,
          updateStatusController,
          updatePassController, 
-         updatePassEmailController} from '../controllers/usersController.js';
+         updatePassEmailController,
+         deleteIanctiveUsersController} from '../controllers/usersController.js';
 import { checkAuth } from '../jwt/auth.js';
 import { multerField } from '../controllers/usersController.js';
 
@@ -18,6 +19,7 @@ router.get('/register-github', passport.authenticate('github', {scope: ['user:em
 router.post('/loginfront', loginFrontController);
 router.post('/register', createUserController);
 router.post('/login', loginUserController);
+router.get('/getAll', allUsersDTOController)
 router.post('/:uid/documents', multerField.single('documentFile'), async (req, res) => {
     try {
       const { uid } = req.params;
@@ -50,9 +52,9 @@ router.get('/private', checkAuth, privateRouteController);
 router.get('/current', passport.authenticate('current'), (req , res) => { res.send (req.user)});
 router.get('/dto/:id', getByDTOController );
 router.put('/premium/:uid', updateStatusController);
-router.post('/changePassword' , updatePassEmailController)
+router.put('/changePassword' , updatePassEmailController)
 router.post('/updatePass', updatePassController);
-
+router.delete('/delete', deleteIanctiveUsersController);
 
 export default router;
 
