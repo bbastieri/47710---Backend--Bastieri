@@ -22,9 +22,9 @@ import swaggerUI from 'swagger-ui-express';
 import swaggerJSDoc from 'swagger-jsdoc';
 import { info } from './docs/info.js';
 
-/* dotenv.config(); */
-/* const port = config.port || 3000; */
-const port = '0.0.0.0';
+dotenv.config();
+const port = config.port || 8080;
+/* const port = 8080; */
 const app = express();
 
 
