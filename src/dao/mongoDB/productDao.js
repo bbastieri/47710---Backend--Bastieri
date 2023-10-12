@@ -42,7 +42,7 @@ export default class ProductDao {
                     stock,
                     status,
                     thumbnails,
-                    owner: user.email                        
+                    owner: userEmail                        
                 })
                 return response;
             } else {

@@ -61,7 +61,9 @@ export const addController = async (req, res, next) => {
             stock,
             status = true
         } = req.body;
-          
+
+        const userEmail = req.user.email;  
+        
         const newDoc = await addService({
             title,
             description,
@@ -69,7 +71,8 @@ export const addController = async (req, res, next) => {
             code,
             category,
             stock,
-            status
+            status,
+            userEmail
         });
         if(!newDoc){
             throw new Error('One of the fields is incorrect, please verify...')

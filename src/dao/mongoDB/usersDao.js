@@ -35,10 +35,10 @@ export default class UsersDao {
     async loginUser (userData) {
       try {
         const { email, password } = userData;
-        const findUser = await UserModel.findOne({email: email, password: password});
-
+        const findUser = await UserModel.findOne({email: email});
+        console.log(findUser)
         if (findUser) {
-            const validUser = validPassword(password, findUser);
+            const validUser = validPassword(findUser, password);
             if (!validUser) return false;
 
             findUser.lastConnection = new Date();

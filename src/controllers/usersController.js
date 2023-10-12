@@ -40,8 +40,8 @@ export const loginUserController = async (req, res, next) => {
     const { email, password } = req.body;
     const userData = await loginUserService({ email, password });
     if (!userData) res.json({ msg: 'invalid credentials' });
-    const lastConnection = user.lastConnection = new Date();
-    user.save();
+    const lastConnection = userData.lastConnection = new Date();
+    userData.save();
     const accessToken = generateToken(userData);
     res.header('authorization', accessToken).json({ msg: 'Login OK', accessToken, lastConnection })
   } catch (error) {
